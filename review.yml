@@ -1,0 +1,148 @@
+aid: usaspending
+name: USAspending.gov
+review:
+  question: Does USAspending expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-03'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. USAspending's public API
+    (api.usaspending.gov/api/v2/...) is request/response REST over HTTPS -
+    there is no server-push transport (WebSocket or SSE) documented anywhere
+    in the official API Blueprint contracts published in the
+    fedspendingtransparency/usaspending-api GitHub repository. Bulk data
+    movement is handled by an asynchronous request-then-poll pattern (submit
+    a download job, then poll a status endpoint for a file_url), not by a
+    streaming or push protocol, so there is no server-push surface to model
+    as AsyncAPI.
+findings:
+  summary: |
+    USAspending.gov does not publish a documented public WebSocket API. The
+    USAspending API (base https://api.usaspending.gov/api/v2) is a free,
+    unauthenticated REST API operated by the Treasury Department's Bureau of
+    the Fiscal Service to meet DATA Act transparency requirements. The
+    official endpoint documentation at api.usaspending.gov/docs/endpoints
+    states plainly that "Endpoints do not currently require any
+    authorization." Complex search and listing endpoints (Awards Search,
+    Recipient, Subawards, Autocomplete, Bulk Download) are exposed as POST
+    routes that accept a JSON filter/fields body, because the filter
+    combinations are too complex for query strings; simpler single-resource
+    lookups (Agency overview, Federal Account detail, Budget Functions,
+    Disaster overview, References/toptier agencies) are GET routes with path
+    and query parameters. Bulk data export is asynchronous but still
+    request/response: a POST kicks off zip-file generation and a GET status
+    endpoint is polled until a file_url is ready - this is HTTP polling, not
+    a WebSocket. No ws:// or wss:// endpoint is documented anywhere in the
+    project's own API Blueprint contracts (usaspending_api/api_contracts/)
+    or in the public developer documentation.
+  openSource: |
+    The USAspending API server (usaspending-api) is open source (CC0 /
+    public domain, U.S. Government work) at
+    github.com/fedspendingtransparency/usaspending-api. The repository also
+    publishes the API's contract-first source of truth as API Blueprint
+    (.md) files under usaspending_api/api_contracts/contracts/v2/, which
+    this review and the accompanying OpenAPI document were grounded in
+    directly.
+  pricingAndAccess: |
+    USAspending is free, public, open government data with no API key, no
+    registration, no pricing tiers, and no FinOps/billing surface - it is
+    funded as a Treasury transparency mandate under the DATA Act, not a
+    commercial product. Plans/pricing and FinOps artifacts are intentionally
+    omitted from this catalog entry rather than fabricated, since none
+    exist.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.usaspending.gov/api/v2
+      documented: true
+      note: All documented endpoints - GET for simple lookups, POST for complex filtered search/listing/download requests. No authentication required.
+    - protocol: HTTP Poll
+      scheme: https
+      documented: true
+      note: Asynchronous Bulk Download is request-then-poll - POST /bulk_download/awards/ returns a file_name; GET /bulk_download/status/?file_name=... is polled until status is finished/ready and a file_url is returned. Client-initiated polling, not server push.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in the official api_contracts or the public API documentation as of the review date.
+  endpointsConfirmed:
+    - POST https://api.usaspending.gov/api/v2/search/spending_by_award/
+    - GET  https://api.usaspending.gov/api/v2/agency/{toptier_code}/
+    - POST https://api.usaspending.gov/api/v2/recipient/
+    - GET  https://api.usaspending.gov/api/v2/federal_accounts/{account_number}/
+    - GET  https://api.usaspending.gov/api/v2/budget_functions/list_budget_functions/
+    - GET  https://api.usaspending.gov/api/v2/disaster/overview/
+    - POST https://api.usaspending.gov/api/v2/bulk_download/awards/
+    - GET  https://api.usaspending.gov/api/v2/bulk_download/status/
+    - GET  https://api.usaspending.gov/api/v2/references/toptier_agencies/
+    - POST https://api.usaspending.gov/api/v2/autocomplete/awarding_agency_office/
+    - POST https://api.usaspending.gov/api/v2/autocomplete/recipient/
+    - POST https://api.usaspending.gov/api/v2/subawards/
+  endpointsModeled:
+    - GET  https://api.usaspending.gov/api/v2/budget_functions/list_budget_subfunctions/
+    - GET  https://api.usaspending.gov/api/v2/bulk_download/list_agencies/
+    - notes: >-
+        These two endpoints are listed in the official api_contracts
+        directory tree and cross-referenced in the endpoint documentation
+        index, but this review did not fetch and read their full API
+        Blueprint request/response bodies before drafting the OpenAPI
+        document - their shapes were modeled by close analogy to the
+        sibling contracts (list_budget_functions and bulk_download/awards +
+        status) rather than transcribed verbatim from source.
+sources:
+  - url: https://api.usaspending.gov/docs/endpoints
+    type: Documentation
+    note: Official endpoint index; states no authorization is required for any endpoint.
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/search/spending_by_award.md
+    type: APIReference
+    note: Full request/response contract for Awards Search read directly.
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/agency/toptier_code.md
+    type: APIReference
+    note: Agency overview GET contract read directly, including DEFC nested structure.
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/recipient.md
+    type: APIReference
+    note: Recipient list/search POST contract read directly.
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/federal_accounts/account_number.md
+    type: APIReference
+    note: Federal account detail GET contract read directly, including child Treasury Account structure.
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/budget_functions/list_budget_functions.md
+    type: APIReference
+    note: Budget functions GET contract read directly.
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/disaster/overview.md
+    type: APIReference
+    note: Disaster/COVID-19 overview GET contract read directly, including DEFC funding breakdown.
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/bulk_download/awards.md
+    type: APIReference
+    note: Bulk award download POST contract read directly.
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/bulk_download/status.md
+    type: APIReference
+    note: Bulk download status GET contract read directly, including status enum (failed/finished/ready/running).
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/references/toptier_agencies.md
+    type: APIReference
+    note: Toptier agency listing GET contract read directly.
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/autocomplete/awarding_agency_office.md
+    type: APIReference
+    note: Awarding agency/office autocomplete POST contract read directly (successor to the deprecated awarding_agency.md).
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/autocomplete/recipient.md
+    type: APIReference
+    note: Recipient autocomplete POST contract read directly.
+  - url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/subawards.md
+    type: APIReference
+    note: Subawards POST contract read directly.
+  - url: https://github.com/fedspendingtransparency/usaspending-api
+    type: SourceCode
+    note: Open-source (CC0/public domain) USAspending API server and its api_contracts/ API Blueprint source of truth.
+  - url: https://onevoicecrm.my.site.com/usaspending/s/question/0D5eq00001AwRpCCAV/api-rate-limitation
+    type: Documentation
+    note: Community support guidance on informal bulk-download concurrency/backoff practice; no numeric limits published.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket or other server-push protocol surface exists anywhere in
+    USAspending's own API Blueprint contracts or public documentation. Every
+    documented endpoint - including the asynchronous Bulk Download workflow
+    - is plain request/response REST over HTTPS, either GET with path/query
+    parameters or POST with a JSON filter body. No AsyncAPI document was
+    created because there is no server-push transport on USAspending's own
+    API to model.

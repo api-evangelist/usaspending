@@ -1,0 +1,67 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: USAspending.gov
+providerId: usaspending
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Government
+- Federal Spending
+- Open Data
+- Rate Limiting
+- Quotas
+description: >-
+  The USAspending API does not require authentication (no API key, no
+  registration) and does not publish fixed, numeric, per-endpoint or
+  per-account rate limits in its official documentation. General search and
+  reference endpoints are described by the USAspending.gov community as
+  usable with generous, informal limits for individual researchers. The
+  documented exception is the asynchronous Bulk Download API
+  (/api/v2/bulk_download/), where the project's own support channel advises
+  limiting concurrent bulk download requests and backing off after failures,
+  because zip-file generation is resource intensive on the backend; no
+  specific numeric threshold for the bulk endpoints is published, and there
+  is no documented way for a client to check how close it is to any limit.
+notes: >-
+  Endpoints do not currently require any authorization, per the official
+  endpoint documentation at api.usaspending.gov/docs/endpoints. Treat the
+  lack of published numeric limits as "not published," not as "no limits" -
+  the API may still return 429s or reset connections under heavy load,
+  particularly on search endpoints with broad filters/date ranges and on
+  bulk downloads. This entry should be reconciled if USAspending publishes
+  explicit numeric limits in the future.
+sources:
+- https://api.usaspending.gov/docs/endpoints
+- https://api.usaspending.gov/
+- https://github.com/fedspendingtransparency/usaspending-api
+- https://onevoicecrm.my.site.com/usaspending/s/question/0D5eq00001AwRpCCAV/api-rate-limitation
+responseCodes:
+  throttled: 429
+limits:
+- name: General API Requests
+  scope: unauthenticated / anonymous
+  metric: requests
+  limit: not published
+  notes: No API key or registration required; no fixed numeric rate limit documented for search, agency, recipient, federal account, or reference endpoints.
+- name: Bulk Download Requests
+  scope: unauthenticated / anonymous
+  metric: concurrent download jobs
+  limit: not published (community guidance suggests 1-2 concurrent)
+  notes: Bulk zip-file generation is backend-intensive; USAspending's own support channel recommends limiting concurrent bulk downloads and waiting several minutes after a failed request before retrying.
+- name: Search Result Window
+  scope: request
+  metric: rows per page
+  limit: varies by endpoint (recipient list caps at 1000 per page)
+  notes: Individual endpoints cap the "limit" request parameter (e.g. the Recipient list endpoint documents a maximum of 1000 rows per page); there is no single global cap across the API.
+policies:
+- name: No Authentication Required
+  description: All documented endpoints are publicly accessible without an API key, OAuth token, or account registration.
+- name: Bulk Download Backoff
+  description: Community and support guidance recommends waiting roughly five minutes after a failed bulk download request and reducing concurrent bulk download requests to one or two before retrying.
+- name: Retry-After Not Documented
+  description: The API does not document a Retry-After header or other machine-readable backoff signal for 429 responses; clients should implement their own conservative exponential backoff.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

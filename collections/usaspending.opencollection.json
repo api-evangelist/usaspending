@@ -1,0 +1,212 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "USAspending API",
+    "version": "v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Awards Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Search spending by award.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/search/spending_by_award/",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"subawards\": false,\n  \"limit\": 10,\n  \"page\": 1,\n  \"filters\": {\n    \"award_type_codes\": [\"A\", \"B\", \"C\"],\n    \"time_period\": [{ \"start_date\": \"2018-10-01\", \"end_date\": \"2019-09-30\" }]\n  },\n  \"fields\": [\"Award ID\", \"Recipient Name\", \"Award Amount\", \"Awarding Agency\"]\n}"
+            }
+          },
+          "docs": "Advanced search across award/subaward spending using a JSON filter object and requested field list."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Agency",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Agency overview.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.usaspending.gov/api/v2/agency/:toptier_code/?fiscal_year=2026",
+            "params": [
+              { "name": "toptier_code", "value": "020", "type": "path", "description": "The toptier code of an agency (CGAC or FREC)." },
+              { "name": "fiscal_year", "value": "2026", "type": "query", "description": "The desired 'as of' fiscal year." }
+            ]
+          },
+          "docs": "Returns basic profile information for the agency for the fiscal year specified."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Recipient",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "List / search recipients.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/recipient/",
+            "body": { "type": "json", "data": "{\n  \"order\": \"desc\",\n  \"sort\": \"amount\",\n  \"page\": 1,\n  \"limit\": 50,\n  \"award_type\": \"all\"\n}" }
+          },
+          "docs": "Returns a paged list of recipients, their level, UEI/DUNS, and award amount."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Federal Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Federal account detail.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.usaspending.gov/api/v2/federal_accounts/:account_number/?fiscal_year=2022",
+            "params": [
+              { "name": "account_number", "value": "011-1022", "type": "path", "description": "The Federal Account symbol (Agency Code-Main Account Code)." },
+              { "name": "fiscal_year", "value": "2022", "type": "query", "description": "The desired appropriations fiscal year." }
+            ]
+          },
+          "docs": "Returns account title, bureau, and aggregated obligated/outlay/budgetary-resources totals for the federal account and its child Treasury Accounts."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Budget Functions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "List budget functions.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.usaspending.gov/api/v2/budget_functions/list_budget_functions/" },
+          "docs": "Returns all federal budget functions, ordered by title."
+        },
+        {
+          "info": { "name": "List budget subfunctions.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.usaspending.gov/api/v2/budget_functions/list_budget_subfunctions/" },
+          "docs": "Returns all federal budget subfunctions, optionally scoped to a parent budget function."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Disaster",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Disaster / emergency funding overview.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.usaspending.gov/api/v2/disaster/overview/" },
+          "docs": "Funding and spending detail from emergency/disaster supplemental appropriations (e.g. CARES Act COVID-19 relief), by Disaster Emergency Fund Code (DEFC)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Bulk Download",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Request bulk award data download.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/bulk_download/awards/",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"filters\": {\n    \"prime_award_types\": [\"A\", \"B\", \"C\", \"D\"],\n    \"date_type\": \"action_date\",\n    \"date_range\": { \"start_date\": \"2019-10-01\", \"end_date\": \"2020-09-30\" }\n  },\n  \"file_format\": \"csv\"\n}"
+            }
+          },
+          "docs": "Begins generating a zip file of award data in CSV/TSV/pipe-delimited form for download."
+        },
+        {
+          "info": { "name": "Check bulk download status.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.usaspending.gov/api/v2/bulk_download/status/?file_name=",
+            "params": [
+              { "name": "file_name", "value": "", "type": "query", "description": "The file name returned by the download-request endpoint." }
+            ]
+          },
+          "docs": "Returns the generation status and download URL (once ready) for a previously requested bulk download file."
+        },
+        {
+          "info": { "name": "List agencies available for bulk download.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.usaspending.gov/api/v2/bulk_download/list_agencies/" },
+          "docs": "Returns the toptier/subtier agencies that can be used to scope a bulk award or account download."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "References & Autocomplete",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "List toptier agencies.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.usaspending.gov/api/v2/references/toptier_agencies/?sort=percentage_of_total_budget_authority&order=desc",
+            "params": [
+              { "name": "sort", "value": "percentage_of_total_budget_authority", "type": "query" },
+              { "name": "order", "value": "desc", "type": "query" }
+            ]
+          },
+          "docs": "Returns all toptier agencies with budgetary resources and their share of total government budget authority."
+        },
+        {
+          "info": { "name": "Autocomplete awarding agency / office.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/autocomplete/awarding_agency_office/",
+            "body": { "type": "json", "data": "{\n  \"search_text\": \"Defense\"\n}" }
+          },
+          "docs": "Returns awarding agencies and sub-agency offices matching the specified search text."
+        },
+        {
+          "info": { "name": "Autocomplete recipient.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/autocomplete/recipient/",
+            "body": { "type": "json", "data": "{\n  \"search_text\": \"Lockheed\"\n}" }
+          },
+          "docs": "Returns recipients matching the specified search text, for use as a search filter."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Subawards",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "List subawards for a prime award.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/subawards/",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"page\": 1,\n  \"limit\": 15,\n  \"sort\": \"subaward_number\",\n  \"order\": \"desc\",\n  \"award_id\": \"25882628\"\n}"
+            }
+          },
+          "docs": "Returns a paged, sortable list of subawards for the given prime award ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

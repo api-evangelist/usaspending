@@ -1,0 +1,226 @@
+{
+  "info": {
+    "name": "USAspending API",
+    "description": "Free, public, unauthenticated REST API for U.S. federal spending data. Base URL: https://api.usaspending.gov/api/v2. Most search/listing endpoints use POST with a JSON filter body; simple lookups use GET with path parameters.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.usaspending.gov/api/v2", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Awards Search",
+      "item": [
+        {
+          "name": "Search spending by award",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subawards\": false,\n  \"limit\": 10,\n  \"page\": 1,\n  \"filters\": {\n    \"award_type_codes\": [\"A\", \"B\", \"C\"],\n    \"time_period\": [{ \"start_date\": \"2018-10-01\", \"end_date\": \"2019-09-30\" }]\n  },\n  \"fields\": [\n    \"Award ID\",\n    \"Recipient Name\",\n    \"Start Date\",\n    \"End Date\",\n    \"Award Amount\",\n    \"Awarding Agency\"\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/search/spending_by_award/", "host": ["{{baseUrl}}"], "path": ["search", "spending_by_award", ""] },
+            "description": "Advanced search across award/subaward spending using a JSON filter object and requested field list."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Agency",
+      "item": [
+        {
+          "name": "Agency overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agency/:toptier_code/?fiscal_year=2026",
+              "host": ["{{baseUrl}}"],
+              "path": ["agency", ":toptier_code", ""],
+              "query": [{ "key": "fiscal_year", "value": "2026" }],
+              "variable": [{ "key": "toptier_code", "value": "020" }]
+            },
+            "description": "Returns basic profile information for the agency for the fiscal year specified."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Recipient",
+      "item": [
+        {
+          "name": "List / search recipients",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order\": \"desc\",\n  \"sort\": \"amount\",\n  \"page\": 1,\n  \"limit\": 50,\n  \"award_type\": \"all\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/recipient/", "host": ["{{baseUrl}}"], "path": ["recipient", ""] },
+            "description": "Returns a paged list of recipients, their level, UEI/DUNS, and award amount."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Federal Accounts",
+      "item": [
+        {
+          "name": "Federal account detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/federal_accounts/:account_number/?fiscal_year=2022",
+              "host": ["{{baseUrl}}"],
+              "path": ["federal_accounts", ":account_number", ""],
+              "query": [{ "key": "fiscal_year", "value": "2022" }],
+              "variable": [{ "key": "account_number", "value": "011-1022" }]
+            },
+            "description": "Returns the account title, bureau, and aggregated obligated/outlay/budgetary-resources totals for the federal account and its child Treasury Accounts."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Budget Functions",
+      "item": [
+        {
+          "name": "List budget functions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/budget_functions/list_budget_functions/", "host": ["{{baseUrl}}"], "path": ["budget_functions", "list_budget_functions", ""] },
+            "description": "Returns all federal budget functions, ordered by title."
+          }
+        },
+        {
+          "name": "List budget subfunctions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/budget_functions/list_budget_subfunctions/", "host": ["{{baseUrl}}"], "path": ["budget_functions", "list_budget_subfunctions", ""] },
+            "description": "Returns all federal budget subfunctions, optionally scoped to a parent budget function."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Disaster",
+      "item": [
+        {
+          "name": "Disaster / emergency funding overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/disaster/overview/", "host": ["{{baseUrl}}"], "path": ["disaster", "overview", ""] },
+            "description": "Funding and spending detail from emergency/disaster supplemental appropriations (e.g. CARES Act COVID-19 relief), by Disaster Emergency Fund Code (DEFC)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bulk Download",
+      "item": [
+        {
+          "name": "Request bulk award data download",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filters\": {\n    \"prime_award_types\": [\"A\", \"B\", \"C\", \"D\"],\n    \"date_type\": \"action_date\",\n    \"date_range\": { \"start_date\": \"2019-10-01\", \"end_date\": \"2020-09-30\" }\n  },\n  \"file_format\": \"csv\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/bulk_download/awards/", "host": ["{{baseUrl}}"], "path": ["bulk_download", "awards", ""] },
+            "description": "Begins generating a zip file of award data in CSV/TSV/pipe-delimited form for download."
+          }
+        },
+        {
+          "name": "Check bulk download status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bulk_download/status/?file_name=",
+              "host": ["{{baseUrl}}"],
+              "path": ["bulk_download", "status", ""],
+              "query": [{ "key": "file_name", "value": "" }]
+            },
+            "description": "Returns the generation status and download URL (once ready) for a previously requested bulk download file."
+          }
+        },
+        {
+          "name": "List agencies available for bulk download",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/bulk_download/list_agencies/", "host": ["{{baseUrl}}"], "path": ["bulk_download", "list_agencies", ""] },
+            "description": "Returns the toptier/subtier agencies that can be used to scope a bulk award or account download."
+          }
+        }
+      ]
+    },
+    {
+      "name": "References & Autocomplete",
+      "item": [
+        {
+          "name": "List toptier agencies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/references/toptier_agencies/?sort=percentage_of_total_budget_authority&order=desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["references", "toptier_agencies", ""],
+              "query": [
+                { "key": "sort", "value": "percentage_of_total_budget_authority" },
+                { "key": "order", "value": "desc" }
+              ]
+            },
+            "description": "Returns all toptier agencies with budgetary resources and their share of total government budget authority."
+          }
+        },
+        {
+          "name": "Autocomplete awarding agency / office",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"search_text\": \"Defense\"\n}" },
+            "url": { "raw": "{{baseUrl}}/autocomplete/awarding_agency_office/", "host": ["{{baseUrl}}"], "path": ["autocomplete", "awarding_agency_office", ""] },
+            "description": "Returns awarding agencies and sub-agency offices matching the specified search text."
+          }
+        },
+        {
+          "name": "Autocomplete recipient",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"search_text\": \"Lockheed\"\n}" },
+            "url": { "raw": "{{baseUrl}}/autocomplete/recipient/", "host": ["{{baseUrl}}"], "path": ["autocomplete", "recipient", ""] },
+            "description": "Returns recipients matching the specified search text, for use as a search filter."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subawards",
+      "item": [
+        {
+          "name": "List subawards for a prime award",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 15,\n  \"sort\": \"subaward_number\",\n  \"order\": \"desc\",\n  \"award_id\": \"25882628\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/subawards/", "host": ["{{baseUrl}}"], "path": ["subawards", ""] },
+            "description": "Returns a paged, sortable list of subawards for the given prime award ID."
+          }
+        }
+      ]
+    }
+  ]
+}
