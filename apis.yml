@@ -221,6 +221,8 @@ apis:
     subaward number, description, action date, amount, and subrecipient name.
     Powers the Sub-Awards tab on the USAspending.gov award profile page.
 common:
+- type: DomainSecurity
+  url: security/usaspending-domain-security.yml
 - type: GitHubOrganization
   url: https://github.com/fedspendingtransparency
 - type: Website
