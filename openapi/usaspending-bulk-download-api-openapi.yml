@@ -1,0 +1,130 @@
+openapi: 3.0.3
+info:
+  title: USAspending Agency Bulk Download API
+  description: The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.
+  version: v2
+  contact:
+    name: USAspending.gov / Bureau of the Fiscal Service
+    url: https://www.usaspending.gov
+  license:
+    name: Open source (CC0 / public domain, U.S. Government work)
+    url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/LICENSE.md
+servers:
+- url: https://api.usaspending.gov/api/v2
+  description: Production (no authentication required)
+tags:
+- name: Bulk Download
+  description: Asynchronous bulk CSV/TSV/text export of filtered spending data.
+paths:
+  /bulk_download/awards/:
+    post:
+      operationId: createBulkAwardDownload
+      tags:
+      - Bulk Download
+      summary: Request a bulk award data download
+      description: Begins generating a zip file of award data in CSV, TSV, or pipe-delimited text form for download. Poll /bulk_download/status/ with the returned file_name to check completion.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDownloadRequest'
+      responses:
+        '200':
+          description: Download job accepted; includes the file name to poll for status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkDownloadResponse'
+  /bulk_download/status/:
+    get:
+      operationId: getBulkDownloadStatus
+      tags:
+      - Bulk Download
+      summary: Check bulk download status
+      description: Returns the generation status and download URL (once ready) for a previously requested bulk download file.
+      parameters:
+      - name: file_name
+        in: query
+        required: true
+        description: The file name returned by the download-request endpoint.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Download status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkDownloadStatus'
+  /bulk_download/list_agencies/:
+    get:
+      operationId: listBulkDownloadAgencies
+      tags:
+      - Bulk Download
+      summary: List agencies available for bulk download
+      description: Returns the toptier and subtier agencies that can be used to scope a bulk award or account download.
+      responses:
+        '200':
+          description: List of agencies available for bulk download.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+components:
+  schemas:
+    BulkDownloadStatus:
+      type: object
+      properties:
+        file_name:
+          type: string
+        status:
+          type: string
+          enum:
+          - ready
+          - running
+          - failed
+          - finished
+        url:
+          type: string
+          nullable: true
+        total_rows:
+          type: integer
+          nullable: true
+        total_columns:
+          type: integer
+          nullable: true
+    BulkDownloadRequest:
+      type: object
+      required:
+      - filters
+      properties:
+        filters:
+          type: object
+          additionalProperties: true
+          description: Award/date/agency filter object; see the awards download API contract for the full shape.
+        columns:
+          type: array
+          items:
+            type: string
+        file_format:
+          type: string
+          enum:
+          - csv
+          - tsv
+          - pstxt
+          default: csv
+    BulkDownloadResponse:
+      type: object
+      properties:
+        file_name:
+          type: string
+        status:
+          type: string
+        url:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true

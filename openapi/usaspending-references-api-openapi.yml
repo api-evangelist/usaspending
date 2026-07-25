@@ -1,0 +1,138 @@
+openapi: 3.0.3
+info:
+  title: USAspending Agency References API
+  description: The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.
+  version: v2
+  contact:
+    name: USAspending.gov / Bureau of the Fiscal Service
+    url: https://www.usaspending.gov
+  license:
+    name: Open source (CC0 / public domain, U.S. Government work)
+    url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/LICENSE.md
+servers:
+- url: https://api.usaspending.gov/api/v2
+  description: Production (no authentication required)
+tags:
+- name: References
+  description: Reference and typeahead/autocomplete lookup data.
+paths:
+  /references/toptier_agencies/:
+    get:
+      operationId: listToptierAgencies
+      tags:
+      - References
+      summary: List toptier agencies
+      description: Returns all toptier agencies with their budgetary resources and the percentage of total government budget authority each accounts for. Powers the USAspending.gov agency profile pages.
+      parameters:
+      - name: sort
+        in: query
+        required: false
+        description: Field to sort results by.
+        schema:
+          type: string
+          default: percentage_of_total_budget_authority
+      - name: order
+        in: query
+        required: false
+        description: Sort direction.
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+      responses:
+        '200':
+          description: List of toptier agencies.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ToptierAgency'
+  /autocomplete/awarding_agency_office/:
+    post:
+      operationId: autocompleteAwardingAgencyOffice
+      tags:
+      - References
+      summary: Autocomplete awarding agency / office
+      description: Returns awarding agencies and sub-agency offices matching the specified search text. Used by the Advanced Search page's Awarding Agency filter.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - search_text
+              properties:
+                search_text:
+                  type: string
+                limit:
+                  type: integer
+            example:
+              search_text: Defense
+      responses:
+        '200':
+          description: Matching awarding agencies / offices.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /autocomplete/recipient/:
+    post:
+      operationId: autocompleteRecipient
+      tags:
+      - References
+      summary: Autocomplete recipient
+      description: Returns recipients matching the specified search text, for use as a search filter.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - search_text
+              properties:
+                search_text:
+                  type: string
+                limit:
+                  type: integer
+      responses:
+        '200':
+          description: Matching recipients.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+components:
+  schemas:
+    ToptierAgency:
+      type: object
+      properties:
+        abbreviation:
+          type: string
+        agency_id:
+          type: integer
+        agency_name:
+          type: string
+        budget_authority_amount:
+          type: number
+        current_total_budget_authority_amount:
+          type: number
+        obligated_amount:
+          type: number
+        outlay_amount:
+          type: number
+        percentage_of_total_budget_authority:
+          type: number
+        toptier_code:
+          type: string
+        agency_slug:
+          type: string

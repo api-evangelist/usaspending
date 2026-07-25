@@ -1,0 +1,74 @@
+openapi: 3.0.3
+info:
+  title: USAspending Agency Disaster API
+  description: The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.
+  version: v2
+  contact:
+    name: USAspending.gov / Bureau of the Fiscal Service
+    url: https://www.usaspending.gov
+  license:
+    name: Open source (CC0 / public domain, U.S. Government work)
+    url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/LICENSE.md
+servers:
+- url: https://api.usaspending.gov/api/v2
+  description: Production (no authentication required)
+tags:
+- name: Disaster
+  description: Disaster and emergency (including COVID-19) supplemental funding data.
+paths:
+  /disaster/overview/:
+    get:
+      operationId: getDisasterOverview
+      tags:
+      - Disaster
+      summary: Disaster / emergency funding overview
+      description: Returns funding and spending detail from emergency and disaster supplemental appropriations (for example, CARES Act COVID-19 relief), optionally scoped to a comma-delimited list of Disaster Emergency Fund Codes (DEFC).
+      parameters:
+      - name: def_codes
+        in: query
+        required: false
+        description: Comma-delimited list of Disaster Emergency Fund Codes to limit results to.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Disaster spending overview.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisasterOverview'
+components:
+  schemas:
+    DisasterOverview:
+      type: object
+      properties:
+        funding:
+          type: array
+          items:
+            $ref: '#/components/schemas/DisasterFunding'
+        total_budget_authority:
+          type: number
+        spending:
+          $ref: '#/components/schemas/DisasterSpending'
+    DisasterFunding:
+      type: object
+      properties:
+        def_code:
+          type: string
+        amount:
+          type: number
+    DisasterSpending:
+      type: object
+      properties:
+        award_obligations:
+          type: number
+          nullable: true
+        award_outlays:
+          type: number
+          nullable: true
+        total_obligations:
+          type: number
+          nullable: true
+        total_outlays:
+          type: number
+          nullable: true

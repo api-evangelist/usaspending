@@ -1,0 +1,178 @@
+openapi: 3.0.3
+info:
+  title: USAspending Agency Awards Search API
+  description: The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.
+  version: v2
+  contact:
+    name: USAspending.gov / Bureau of the Fiscal Service
+    url: https://www.usaspending.gov
+  license:
+    name: Open source (CC0 / public domain, U.S. Government work)
+    url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/LICENSE.md
+servers:
+- url: https://api.usaspending.gov/api/v2
+  description: Production (no authentication required)
+tags:
+- name: Awards Search
+  description: Advanced search and filtering across award and subaward spending.
+paths:
+  /search/spending_by_award/:
+    post:
+      operationId: searchSpendingByAward
+      tags:
+      - Awards Search
+      summary: Search spending by award
+      description: Supports the Advanced Search page. Accepts a complex award filter object and a requested field list, and returns paged, sortable award or subaward records.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpendingByAwardRequest'
+            example:
+              subawards: false
+              limit: 10
+              page: 1
+              filters:
+                award_type_codes:
+                - A
+                - B
+                - C
+                time_period:
+                - start_date: '2018-10-01'
+                  end_date: '2019-09-30'
+              fields:
+              - Award ID
+              - Recipient Name
+              - Start Date
+              - End Date
+              - Award Amount
+              - Awarding Agency
+      responses:
+        '200':
+          description: Filtered, paged award or subaward results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpendingByAwardResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+components:
+  schemas:
+    SpendingByAwardResponse:
+      type: object
+      properties:
+        spending_level:
+          type: string
+          enum:
+          - awards
+          - subawards
+        limit:
+          type: integer
+        results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            description: One object per requested field name, plus internal_id.
+        page_metadata:
+          $ref: '#/components/schemas/PageMetadata'
+        messages:
+          type: array
+          items:
+            type: string
+    SpendingByAwardRequest:
+      type: object
+      required:
+      - filters
+      - fields
+      properties:
+        filters:
+          $ref: '#/components/schemas/AdvancedFilterObject'
+        fields:
+          type: array
+          items:
+            type: string
+          description: Requested response fields, e.g. "Award ID", "Recipient Name", "Award Amount".
+        limit:
+          type: integer
+          default: 10
+        page:
+          type: integer
+          default: 1
+        order:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+        sort:
+          type: string
+        subawards:
+          type: boolean
+          default: false
+          description: True to group by subawards instead of prime awards.
+        spending_level:
+          type: string
+          enum:
+          - awards
+          - subawards
+          default: awards
+    AdvancedFilterObject:
+      type: object
+      description: Award search filter object. Common fields include award_type_codes, time_period, agencies, recipient_search_text, recipient_id, recipient_locations, place_of_performance_locations, naics_codes, psc_codes, keywords, and award_amounts. See the Advanced Search filter documentation for the full set.
+      additionalProperties: true
+      properties:
+        award_type_codes:
+          type: array
+          items:
+            type: string
+          example:
+          - A
+          - B
+          - C
+          - D
+        time_period:
+          type: array
+          items:
+            type: object
+            properties:
+              start_date:
+                type: string
+                format: date
+              end_date:
+                type: string
+                format: date
+        keywords:
+          type: array
+          items:
+            type: string
+    PageMetadata:
+      type: object
+      properties:
+        page:
+          type: integer
+        next:
+          type: integer
+          nullable: true
+        previous:
+          type: integer
+          nullable: true
+        hasNext:
+          type: boolean
+        hasPrevious:
+          type: boolean
+        total:
+          type: integer
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+  responses:
+    BadRequest:
+      description: The request filters or fields failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
