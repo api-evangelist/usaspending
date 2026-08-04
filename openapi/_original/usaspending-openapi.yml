@@ -1,0 +1,869 @@
+openapi: 3.0.3
+info:
+  title: USAspending API
+  description: >-
+    The USAspending API provides free, public, unauthenticated access to
+    U.S. federal spending data - contracts, grants, loans, direct payments,
+    and other financial assistance awards, plus agency budgets, federal
+    account (Treasury Account Symbol) data, recipient profiles, and
+    disaster/emergency (including COVID-19) relief spending. USAspending.gov
+    is operated by the Treasury Department's Bureau of the Fiscal Service to
+    implement the DATA Act's federal spending transparency mandate. Most
+    search and listing endpoints accept a POST with a JSON body describing
+    filters, fields, sort, and pagination, because filter combinations are
+    too complex for query strings; simpler single-resource lookups use GET
+    with path parameters. This document is a representative, hand-authored
+    subset of the full API grounded directly in the official API Blueprint
+    contracts published in the usaspending-api GitHub repository - it is not
+    a complete mirror of every endpoint and field.
+  version: v2
+  contact:
+    name: USAspending.gov / Bureau of the Fiscal Service
+    url: https://www.usaspending.gov
+  license:
+    name: Open source (CC0 / public domain, U.S. Government work)
+    url: https://github.com/fedspendingtransparency/usaspending-api/blob/master/LICENSE.md
+servers:
+  - url: https://api.usaspending.gov/api/v2
+    description: Production (no authentication required)
+tags:
+  - name: Awards Search
+    description: Advanced search and filtering across award and subaward spending.
+  - name: Agency
+    description: Per-agency profile, budget, and award data.
+  - name: Recipient
+    description: Recipient (awardee) profile and search data.
+  - name: Federal Accounts
+    description: Federal account and Treasury Account Symbol (TAS) data.
+  - name: Budget Functions
+    description: Federal budget functional classification reference data.
+  - name: Disaster
+    description: Disaster and emergency (including COVID-19) supplemental funding data.
+  - name: Bulk Download
+    description: Asynchronous bulk CSV/TSV/text export of filtered spending data.
+  - name: References
+    description: Reference and typeahead/autocomplete lookup data.
+  - name: Subawards
+    description: Subaward (pass-through award) listings scoped to a prime award.
+paths:
+  /search/spending_by_award/:
+    post:
+      operationId: searchSpendingByAward
+      tags:
+        - Awards Search
+      summary: Search spending by award
+      description: >-
+        Supports the Advanced Search page. Accepts a complex award filter
+        object and a requested field list, and returns paged, sortable award
+        or subaward records.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpendingByAwardRequest'
+            example:
+              subawards: false
+              limit: 10
+              page: 1
+              filters:
+                award_type_codes: ["A", "B", "C"]
+                time_period:
+                  - start_date: "2018-10-01"
+                    end_date: "2019-09-30"
+              fields:
+                - "Award ID"
+                - "Recipient Name"
+                - "Start Date"
+                - "End Date"
+                - "Award Amount"
+                - "Awarding Agency"
+      responses:
+        '200':
+          description: Filtered, paged award or subaward results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpendingByAwardResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /agency/{toptier_code}/:
+    parameters:
+      - $ref: '#/components/parameters/ToptierCode'
+      - $ref: '#/components/parameters/FiscalYear'
+    get:
+      operationId: getAgencyOverview
+      tags:
+        - Agency
+      summary: Agency overview
+      description: Returns basic profile information for the agency for the fiscal year specified.
+      responses:
+        '200':
+          description: Agency overview.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgencyOverview'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /recipient/:
+    post:
+      operationId: listRecipients
+      tags:
+        - Recipient
+      summary: List / search recipients
+      description: >-
+        Returns a paged list of recipients, their level, UEI (and deprecated
+        DUNS), and award amount. Supports keyword search on name, UEI, or DUNS.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipientListRequest'
+            example:
+              order: desc
+              sort: amount
+              page: 1
+              limit: 50
+              award_type: all
+      responses:
+        '200':
+          description: Paged recipient listing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipientListResponse'
+  /federal_accounts/{account_number}/:
+    parameters:
+      - $ref: '#/components/parameters/AccountNumber'
+      - $ref: '#/components/parameters/FiscalYear'
+    get:
+      operationId: getFederalAccount
+      tags:
+        - Federal Accounts
+      summary: Federal account detail
+      description: >-
+        Returns the agency identifier, account code, title, bureau, and
+        aggregated obligated / outlay / budgetary-resources totals for the
+        given federal account and its child Treasury Account Symbols (TAS).
+      responses:
+        '200':
+          description: Federal account detail with child Treasury Accounts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FederalAccount'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /budget_functions/list_budget_functions/:
+    get:
+      operationId: listBudgetFunctions
+      tags:
+        - Budget Functions
+      summary: List budget functions
+      description: Returns all federal budget functions, ordered by title.
+      responses:
+        '200':
+          description: List of budget functions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BudgetFunction'
+  /budget_functions/list_budget_subfunctions/:
+    get:
+      operationId: listBudgetSubfunctions
+      tags:
+        - Budget Functions
+      summary: List budget subfunctions
+      description: Returns all federal budget subfunctions, optionally scoped to a parent budget function.
+      parameters:
+        - name: budget_function
+          in: query
+          required: false
+          description: Budget function code to scope the subfunction list to.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of budget subfunctions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BudgetSubfunction'
+  /disaster/overview/:
+    get:
+      operationId: getDisasterOverview
+      tags:
+        - Disaster
+      summary: Disaster / emergency funding overview
+      description: >-
+        Returns funding and spending detail from emergency and disaster
+        supplemental appropriations (for example, CARES Act COVID-19 relief),
+        optionally scoped to a comma-delimited list of Disaster Emergency
+        Fund Codes (DEFC).
+      parameters:
+        - name: def_codes
+          in: query
+          required: false
+          description: Comma-delimited list of Disaster Emergency Fund Codes to limit results to.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Disaster spending overview.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisasterOverview'
+  /bulk_download/awards/:
+    post:
+      operationId: createBulkAwardDownload
+      tags:
+        - Bulk Download
+      summary: Request a bulk award data download
+      description: >-
+        Begins generating a zip file of award data in CSV, TSV, or
+        pipe-delimited text form for download. Poll /bulk_download/status/
+        with the returned file_name to check completion.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDownloadRequest'
+      responses:
+        '200':
+          description: Download job accepted; includes the file name to poll for status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkDownloadResponse'
+  /bulk_download/status/:
+    get:
+      operationId: getBulkDownloadStatus
+      tags:
+        - Bulk Download
+      summary: Check bulk download status
+      description: Returns the generation status and download URL (once ready) for a previously requested bulk download file.
+      parameters:
+        - name: file_name
+          in: query
+          required: true
+          description: The file name returned by the download-request endpoint.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Download status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkDownloadStatus'
+  /bulk_download/list_agencies/:
+    get:
+      operationId: listBulkDownloadAgencies
+      tags:
+        - Bulk Download
+      summary: List agencies available for bulk download
+      description: Returns the toptier and subtier agencies that can be used to scope a bulk award or account download.
+      responses:
+        '200':
+          description: List of agencies available for bulk download.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /references/toptier_agencies/:
+    get:
+      operationId: listToptierAgencies
+      tags:
+        - References
+      summary: List toptier agencies
+      description: >-
+        Returns all toptier agencies with their budgetary resources and the
+        percentage of total government budget authority each accounts for.
+        Powers the USAspending.gov agency profile pages.
+      parameters:
+        - name: sort
+          in: query
+          required: false
+          description: Field to sort results by.
+          schema:
+            type: string
+            default: percentage_of_total_budget_authority
+        - name: order
+          in: query
+          required: false
+          description: Sort direction.
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+      responses:
+        '200':
+          description: List of toptier agencies.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ToptierAgency'
+  /autocomplete/awarding_agency_office/:
+    post:
+      operationId: autocompleteAwardingAgencyOffice
+      tags:
+        - References
+      summary: Autocomplete awarding agency / office
+      description: >-
+        Returns awarding agencies and sub-agency offices matching the
+        specified search text. Used by the Advanced Search page's Awarding
+        Agency filter.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [search_text]
+              properties:
+                search_text:
+                  type: string
+                limit:
+                  type: integer
+            example:
+              search_text: Defense
+      responses:
+        '200':
+          description: Matching awarding agencies / offices.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /autocomplete/recipient/:
+    post:
+      operationId: autocompleteRecipient
+      tags:
+        - References
+      summary: Autocomplete recipient
+      description: Returns recipients matching the specified search text, for use as a search filter.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [search_text]
+              properties:
+                search_text:
+                  type: string
+                limit:
+                  type: integer
+      responses:
+        '200':
+          description: Matching recipients.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /subawards/:
+    post:
+      operationId: listSubawards
+      tags:
+        - Subawards
+      summary: List subawards for a prime award
+      description: >-
+        Returns a paged, sortable list of subawards (pass-through awards to
+        a subrecipient) for the given prime award ID. Powers the Sub-Awards
+        tab on the award profile page.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubawardsRequest'
+            example:
+              page: 1
+              limit: 15
+              sort: subaward_number
+              order: desc
+              award_id: "25882628"
+      responses:
+        '200':
+          description: Paged subaward listing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubawardsResponse'
+components:
+  parameters:
+    ToptierCode:
+      name: toptier_code
+      in: path
+      required: true
+      description: The toptier code of an agency (CGAC or FREC), 3-4 numeric characters.
+      schema:
+        type: string
+        example: "020"
+    FiscalYear:
+      name: fiscal_year
+      in: query
+      required: false
+      description: The desired "as of" fiscal year. Defaults to the current fiscal year.
+      schema:
+        type: integer
+        example: 2026
+    AccountNumber:
+      name: account_number
+      in: path
+      required: true
+      description: The Federal Account symbol (Agency Code-Main Account Code).
+      schema:
+        type: string
+        example: "011-1022"
+  responses:
+    BadRequest:
+      description: The request filters or fields failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+    PageMetadata:
+      type: object
+      properties:
+        page:
+          type: integer
+        next:
+          type: integer
+          nullable: true
+        previous:
+          type: integer
+          nullable: true
+        hasNext:
+          type: boolean
+        hasPrevious:
+          type: boolean
+        total:
+          type: integer
+    AdvancedFilterObject:
+      type: object
+      description: >-
+        Award search filter object. Common fields include award_type_codes,
+        time_period, agencies, recipient_search_text, recipient_id,
+        recipient_locations, place_of_performance_locations, naics_codes,
+        psc_codes, keywords, and award_amounts. See the Advanced Search
+        filter documentation for the full set.
+      additionalProperties: true
+      properties:
+        award_type_codes:
+          type: array
+          items:
+            type: string
+          example: ["A", "B", "C", "D"]
+        time_period:
+          type: array
+          items:
+            type: object
+            properties:
+              start_date:
+                type: string
+                format: date
+              end_date:
+                type: string
+                format: date
+        keywords:
+          type: array
+          items:
+            type: string
+    SpendingByAwardRequest:
+      type: object
+      required: [filters, fields]
+      properties:
+        filters:
+          $ref: '#/components/schemas/AdvancedFilterObject'
+        fields:
+          type: array
+          items:
+            type: string
+          description: Requested response fields, e.g. "Award ID", "Recipient Name", "Award Amount".
+        limit:
+          type: integer
+          default: 10
+        page:
+          type: integer
+          default: 1
+        order:
+          type: string
+          enum: [asc, desc]
+          default: desc
+        sort:
+          type: string
+        subawards:
+          type: boolean
+          default: false
+          description: True to group by subawards instead of prime awards.
+        spending_level:
+          type: string
+          enum: [awards, subawards]
+          default: awards
+    SpendingByAwardResponse:
+      type: object
+      properties:
+        spending_level:
+          type: string
+          enum: [awards, subawards]
+        limit:
+          type: integer
+        results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            description: One object per requested field name, plus internal_id.
+        page_metadata:
+          $ref: '#/components/schemas/PageMetadata'
+        messages:
+          type: array
+          items:
+            type: string
+    DEFC:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Disaster Emergency Fund Code.
+        public_law:
+          type: string
+        title:
+          type: string
+          nullable: true
+        disaster:
+          type: string
+          nullable: true
+        urls:
+          type: array
+          items:
+            type: string
+          nullable: true
+    AgencyOverview:
+      type: object
+      properties:
+        fiscal_year:
+          type: integer
+        toptier_code:
+          type: string
+        name:
+          type: string
+        abbreviation:
+          type: string
+          nullable: true
+        agency_id:
+          type: integer
+        mission:
+          type: string
+          nullable: true
+        website:
+          type: string
+          nullable: true
+        congressional_justification_url:
+          type: string
+          nullable: true
+        subtier_agency_count:
+          type: integer
+        def_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DEFC'
+        messages:
+          type: array
+          items:
+            type: string
+    RecipientListRequest:
+      type: object
+      properties:
+        order:
+          type: string
+          enum: [asc, desc]
+          default: desc
+        sort:
+          type: string
+          enum: [name, duns, amount]
+          default: amount
+        limit:
+          type: integer
+          default: 50
+          maximum: 1000
+        page:
+          type: integer
+          default: 1
+        keyword:
+          type: string
+          description: Searches on name, UEI, or DUNS.
+        award_type:
+          type: string
+          enum: [all, contracts, grants, loans, direct_payments, other_financial_assistance]
+          default: all
+    RecipientListing:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        duns:
+          type: string
+          nullable: true
+        uei:
+          type: string
+          nullable: true
+        recipient_level:
+          type: string
+        amount:
+          type: number
+    RecipientListResponse:
+      type: object
+      properties:
+        page_metadata:
+          $ref: '#/components/schemas/PageMetadata'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipientListing'
+    TreasuryAccount:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        obligated_amount:
+          type: number
+        gross_outlay_amount:
+          type: number
+        budgetary_resources_amount:
+          type: number
+    FederalAccount:
+      type: object
+      properties:
+        fiscal_year:
+          type: string
+        id:
+          type: integer
+        agency_identifier:
+          type: string
+        main_account_code:
+          type: string
+        federal_account_code:
+          type: string
+        account_title:
+          type: string
+        parent_agency_toptier_code:
+          type: string
+        parent_agency_name:
+          type: string
+        bureau_name:
+          type: string
+        bureau_slug:
+          type: string
+        total_obligated_amount:
+          type: number
+          nullable: true
+        total_gross_outlay_amount:
+          type: number
+          nullable: true
+        total_budgetary_resources:
+          type: number
+          nullable: true
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/TreasuryAccount'
+    BudgetFunction:
+      type: object
+      properties:
+        budget_function_code:
+          type: string
+        budget_function_title:
+          type: string
+    BudgetSubfunction:
+      type: object
+      properties:
+        budget_subfunction_code:
+          type: string
+        budget_subfunction_title:
+          type: string
+    DisasterFunding:
+      type: object
+      properties:
+        def_code:
+          type: string
+        amount:
+          type: number
+    DisasterSpending:
+      type: object
+      properties:
+        award_obligations:
+          type: number
+          nullable: true
+        award_outlays:
+          type: number
+          nullable: true
+        total_obligations:
+          type: number
+          nullable: true
+        total_outlays:
+          type: number
+          nullable: true
+    DisasterOverview:
+      type: object
+      properties:
+        funding:
+          type: array
+          items:
+            $ref: '#/components/schemas/DisasterFunding'
+        total_budget_authority:
+          type: number
+        spending:
+          $ref: '#/components/schemas/DisasterSpending'
+    BulkDownloadRequest:
+      type: object
+      required: [filters]
+      properties:
+        filters:
+          type: object
+          additionalProperties: true
+          description: Award/date/agency filter object; see the awards download API contract for the full shape.
+        columns:
+          type: array
+          items:
+            type: string
+        file_format:
+          type: string
+          enum: [csv, tsv, pstxt]
+          default: csv
+    BulkDownloadResponse:
+      type: object
+      properties:
+        file_name:
+          type: string
+        status:
+          type: string
+        url:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+    BulkDownloadStatus:
+      type: object
+      properties:
+        file_name:
+          type: string
+        status:
+          type: string
+          enum: [ready, running, failed, finished]
+        url:
+          type: string
+          nullable: true
+        total_rows:
+          type: integer
+          nullable: true
+        total_columns:
+          type: integer
+          nullable: true
+    ToptierAgency:
+      type: object
+      properties:
+        abbreviation:
+          type: string
+        agency_id:
+          type: integer
+        agency_name:
+          type: string
+        budget_authority_amount:
+          type: number
+        current_total_budget_authority_amount:
+          type: number
+        obligated_amount:
+          type: number
+        outlay_amount:
+          type: number
+        percentage_of_total_budget_authority:
+          type: number
+        toptier_code:
+          type: string
+        agency_slug:
+          type: string
+    SubawardsRequest:
+      type: object
+      required: [page, sort, order]
+      properties:
+        page:
+          type: integer
+          default: 1
+        limit:
+          type: integer
+          default: 10
+        sort:
+          type: string
+          enum: [subaward_number, id, description, action_date, amount, recipient_name]
+        order:
+          type: string
+          enum: [asc, desc]
+          default: desc
+        award_id:
+          type: string
+          description: Generated natural award ID (preferred) or legacy surrogate award ID.
+    SubawardResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        subaward_number:
+          type: string
+        description:
+          type: string
+        action_date:
+          type: string
+          format: date
+        amount:
+          type: number
+        recipient_name:
+          type: string
+    SubawardsResponse:
+      type: object
+      properties:
+        page_metadata:
+          $ref: '#/components/schemas/PageMetadata'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubawardResponse'

@@ -1,0 +1,30 @@
+{
+  "provider": "usaspending",
+  "sources": [
+    "usaspending-agency-api-openapi.yml",
+    "usaspending-awards-search-api-openapi.yml",
+    "usaspending-budget-functions-api-openapi.yml",
+    "usaspending-bulk-download-api-openapi.yml",
+    "usaspending-disaster-api-openapi.yml",
+    "usaspending-federal-accounts-api-openapi.yml",
+    "usaspending-recipient-api-openapi.yml",
+    "usaspending-references-api-openapi.yml",
+    "usaspending-subawards-api-openapi.yml"
+  ],
+  "outputs": [
+    "usaspending-agency-api-openapi.yml",
+    "usaspending-awards-search-api-openapi.yml",
+    "usaspending-budget-functions-api-openapi.yml",
+    "usaspending-bulk-download-api-openapi.yml",
+    "usaspending-disaster-api-openapi.yml",
+    "usaspending-federal-accounts-api-openapi.yml",
+    "usaspending-recipient-api-openapi.yml",
+    "usaspending-references-api-openapi.yml",
+    "usaspending-subawards-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
