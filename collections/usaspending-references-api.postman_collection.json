@@ -1,0 +1,318 @@
+{
+  "item": [
+    {
+      "id": "a7c1e031-5a96-4a06-bafe-1a3902f275ab",
+      "name": "References",
+      "description": {
+        "content": "Reference and typeahead/autocomplete lookup data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "775c9ec5-a8fc-41dc-996e-b081e1371481",
+          "name": "List toptier agencies",
+          "request": {
+            "name": "List toptier agencies",
+            "description": {
+              "content": "Returns all toptier agencies with their budgetary resources and the percentage of total government budget authority each accounts for. Powers the USAspending.gov agency profile pages.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "references",
+                "toptier_agencies",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "percentage_of_total_budget_authority",
+                  "description": "Field to sort results by."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "desc",
+                  "description": "Sort direction."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e3aa15fb-7148-46e1-bf41-ac965171a629",
+              "name": "List of toptier agencies.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "references",
+                    "toptier_agencies",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "percentage_of_total_budget_authority"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"abbreviation\": \"string\",\n      \"agency_id\": 2033,\n      \"agency_name\": \"string\",\n      \"budget_authority_amount\": 1413.5645868302215,\n      \"current_total_budget_authority_amount\": 5167.035485394884,\n      \"obligated_amount\": 3388.715281975465,\n      \"outlay_amount\": 4340.976430309941,\n      \"percentage_of_total_budget_authority\": 8768.3100917531,\n      \"toptier_code\": \"string\",\n      \"agency_slug\": \"string\"\n    },\n    {\n      \"abbreviation\": \"string\",\n      \"agency_id\": 1159,\n      \"agency_name\": \"string\",\n      \"budget_authority_amount\": 9514.074806358787,\n      \"current_total_budget_authority_amount\": 7844.829445957473,\n      \"obligated_amount\": 1511.3556184134814,\n      \"outlay_amount\": 1697.465690416584,\n      \"percentage_of_total_budget_authority\": 1652.2228720598275,\n      \"toptier_code\": \"string\",\n      \"agency_slug\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "acb70312-6e57-4cb7-994c-30fb255a7be4",
+          "name": "Autocomplete awarding agency / office",
+          "request": {
+            "name": "Autocomplete awarding agency / office",
+            "description": {
+              "content": "Returns awarding agencies and sub-agency offices matching the specified search text. Used by the Advanced Search page's Awarding Agency filter.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "autocomplete",
+                "awarding_agency_office",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"search_text\": \"<string>\",\n  \"limit\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5ad3e56c-54b9-4a2e-9b14-745c5094a30e",
+              "name": "Matching awarding agencies / offices.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "autocomplete",
+                    "awarding_agency_office",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"search_text\": \"Defense\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": 4220,\n  \"key_1\": \"string\",\n  \"key_2\": 1422\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "48836e12-2b65-45ad-8e58-65f6e11724df",
+          "name": "Autocomplete recipient",
+          "request": {
+            "name": "Autocomplete recipient",
+            "description": {
+              "content": "Returns recipients matching the specified search text, for use as a search filter.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "autocomplete",
+                "recipient",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"search_text\": \"<string>\",\n  \"limit\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c50082b3-63cc-4a9e-824a-9948cd1e6fd5",
+              "name": "Matching recipients.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "autocomplete",
+                    "recipient",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"search_text\": \"<string>\",\n  \"limit\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": 4220,\n  \"key_1\": \"string\",\n  \"key_2\": 1422\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.usaspending.gov/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "4914c5e8-ded8-464a-82f7-2178689f2ab3",
+    "name": "USAspending Agency References API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.\n\nContact Support:\n Name: USAspending.gov / Bureau of the Fiscal Service",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "item": [
+    {
+      "id": "d881ac82-a0c0-4f30-87d3-42a6c2e6f6de",
+      "name": "Awards Search",
+      "description": {
+        "content": "Advanced search and filtering across award and subaward spending.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5584e561-1545-453b-8061-fb131f58bfd7",
+          "name": "Search spending by award",
+          "request": {
+            "name": "Search spending by award",
+            "description": {
+              "content": "Supports the Advanced Search page. Accepts a complex award filter object and a requested field list, and returns paged, sortable award or subaward records.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search",
+                "spending_by_award",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filters\": {\n    \"award_type_codes\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"time_period\": [\n      {\n        \"start_date\": \"<date>\",\n        \"end_date\": \"<date>\"\n      },\n      {\n        \"start_date\": \"<date>\",\n        \"end_date\": \"<date>\"\n      }\n    ],\n    \"keywords\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"key_0\": 2053.012949577532,\n    \"key_1\": false\n  },\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"limit\": 10,\n  \"page\": 1,\n  \"order\": \"desc\",\n  \"sort\": \"<string>\",\n  \"subawards\": false,\n  \"spending_level\": \"awards\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "93600306-517d-4b99-9824-caa77c42e419",
+              "name": "Filtered, paged award or subaward results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search",
+                    "spending_by_award",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"subawards\": false,\n  \"limit\": 10,\n  \"page\": 1,\n  \"filters\": {\n    \"award_type_codes\": [\n      \"A\",\n      \"B\",\n      \"C\"\n    ],\n    \"time_period\": [\n      {\n        \"start_date\": \"2018-10-01\",\n        \"end_date\": \"2019-09-30\"\n      }\n    ]\n  },\n  \"fields\": [\n    \"Award ID\",\n    \"Recipient Name\",\n    \"Start Date\",\n    \"End Date\",\n    \"Award Amount\",\n    \"Awarding Agency\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"spending_level\": \"subawards\",\n  \"limit\": 2059,\n  \"results\": [\n    {\n      \"key_0\": \"string\"\n    },\n    {\n      \"key_0\": \"string\"\n    }\n  ],\n  \"page_metadata\": {\n    \"page\": 504,\n    \"next\": 379,\n    \"previous\": 7456,\n    \"hasNext\": false,\n    \"hasPrevious\": true,\n    \"total\": 9040\n  },\n  \"messages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e02265f-4ffd-4c6d-a573-45c6f56c92b8",
+              "name": "The request filters or fields failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search",
+                    "spending_by_award",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"subawards\": false,\n  \"limit\": 10,\n  \"page\": 1,\n  \"filters\": {\n    \"award_type_codes\": [\n      \"A\",\n      \"B\",\n      \"C\"\n    ],\n    \"time_period\": [\n      {\n        \"start_date\": \"2018-10-01\",\n        \"end_date\": \"2019-09-30\"\n      }\n    ]\n  },\n  \"fields\": [\n    \"Award ID\",\n    \"Recipient Name\",\n    \"Start Date\",\n    \"End Date\",\n    \"Award Amount\",\n    \"Awarding Agency\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.usaspending.gov/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "bd9f7b39-6673-4e0a-9980-7da11a1490dd",
+    "name": "USAspending Agency Awards Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.\n\nContact Support:\n Name: USAspending.gov / Bureau of the Fiscal Service",
+      "type": "text/plain"
+    }
+  }
+}

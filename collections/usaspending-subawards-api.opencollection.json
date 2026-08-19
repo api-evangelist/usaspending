@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "USAspending Agency Subawards API",
+    "version": "v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subawards",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List subawards for a prime award",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/subawards/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a paged, sortable list of subawards (pass-through awards to a subrecipient) for the given prime award ID. Powers the Sub-Awards tab on the award profile page."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

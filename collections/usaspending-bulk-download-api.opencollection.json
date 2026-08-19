@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "USAspending Agency Bulk Download API",
+    "version": "v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Bulk Download",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Request a bulk award data download",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/bulk_download/awards/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Begins generating a zip file of award data in CSV, TSV, or pipe-delimited text form for download. Poll /bulk_download/status/ with the returned file_name to check completion."
+        },
+        {
+          "info": {
+            "name": "Check bulk download status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.usaspending.gov/api/v2/bulk_download/status/",
+            "params": [
+              {
+                "name": "file_name",
+                "value": "",
+                "type": "query",
+                "description": "The file name returned by the download-request endpoint."
+              }
+            ]
+          },
+          "docs": "Returns the generation status and download URL (once ready) for a previously requested bulk download file."
+        },
+        {
+          "info": {
+            "name": "List agencies available for bulk download",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.usaspending.gov/api/v2/bulk_download/list_agencies/"
+          },
+          "docs": "Returns the toptier and subtier agencies that can be used to scope a bulk award or account download."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

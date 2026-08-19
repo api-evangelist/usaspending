@@ -1,0 +1,118 @@
+{
+  "item": [
+    {
+      "id": "3f429de5-0875-4567-b921-b73faedc700f",
+      "name": "Disaster",
+      "description": {
+        "content": "Disaster and emergency (including COVID-19) supplemental funding data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ad04dd27-908f-40c8-b145-403e9f489466",
+          "name": "Disaster / emergency funding overview",
+          "request": {
+            "name": "Disaster / emergency funding overview",
+            "description": {
+              "content": "Returns funding and spending detail from emergency and disaster supplemental appropriations (for example, CARES Act COVID-19 relief), optionally scoped to a comma-delimited list of Disaster Emergency Fund Codes (DEFC).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disaster",
+                "overview",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "def_codes",
+                  "value": "<string>",
+                  "description": "Comma-delimited list of Disaster Emergency Fund Codes to limit results to."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d7769952-0674-4b4c-a341-8cf189b1492f",
+              "name": "Disaster spending overview.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disaster",
+                    "overview",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "def_codes",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"funding\": [\n    {\n      \"def_code\": \"string\",\n      \"amount\": 1623.9128869069607\n    },\n    {\n      \"def_code\": \"string\",\n      \"amount\": 8262.659411650911\n    }\n  ],\n  \"total_budget_authority\": 7017.838843787691,\n  \"spending\": {\n    \"award_obligations\": 8021.741966983101,\n    \"award_outlays\": 4663.142320207012,\n    \"total_obligations\": 5560.390870661308,\n    \"total_outlays\": 5628.843623997368\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.usaspending.gov/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "24d81bd0-f57d-4e04-89aa-7af6ba2b2aa4",
+    "name": "USAspending Agency Disaster API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.\n\nContact Support:\n Name: USAspending.gov / Bureau of the Fiscal Service",
+      "type": "text/plain"
+    }
+  }
+}

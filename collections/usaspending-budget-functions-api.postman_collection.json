@@ -1,0 +1,192 @@
+{
+  "item": [
+    {
+      "id": "b4dde238-aba4-4144-a127-10146728e5dd",
+      "name": "Budget Functions",
+      "description": {
+        "content": "Federal budget functional classification reference data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d594ba19-a17c-49c3-b167-b87b9df4173f",
+          "name": "List budget functions",
+          "request": {
+            "name": "List budget functions",
+            "description": {
+              "content": "Returns all federal budget functions, ordered by title.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "budget_functions",
+                "list_budget_functions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7b32a9e2-f02e-4665-be9a-d06d1744e846",
+              "name": "List of budget functions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "budget_functions",
+                    "list_budget_functions",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"budget_function_code\": \"string\",\n      \"budget_function_title\": \"string\"\n    },\n    {\n      \"budget_function_code\": \"string\",\n      \"budget_function_title\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1414b91a-57b6-4708-bbfa-d3496af02830",
+          "name": "List budget subfunctions",
+          "request": {
+            "name": "List budget subfunctions",
+            "description": {
+              "content": "Returns all federal budget subfunctions, optionally scoped to a parent budget function.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "budget_functions",
+                "list_budget_subfunctions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "budget_function",
+                  "value": "<string>",
+                  "description": "Budget function code to scope the subfunction list to."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8027af63-0e09-48f6-80f8-4bb8d19334ca",
+              "name": "List of budget subfunctions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "budget_functions",
+                    "list_budget_subfunctions",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "budget_function",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"budget_subfunction_code\": \"string\",\n      \"budget_subfunction_title\": \"string\"\n    },\n    {\n      \"budget_subfunction_code\": \"string\",\n      \"budget_subfunction_title\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.usaspending.gov/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "787dfbb5-9640-4bbb-b942-e42cae6335e4",
+    "name": "USAspending Agency Budget Functions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.\n\nContact Support:\n Name: USAspending.gov / Bureau of the Fiscal Service",
+      "type": "text/plain"
+    }
+  }
+}

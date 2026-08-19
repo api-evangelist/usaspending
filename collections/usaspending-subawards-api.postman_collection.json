@@ -1,0 +1,125 @@
+{
+  "item": [
+    {
+      "id": "8dd4e8d9-924a-466b-a92c-3a29c677b63c",
+      "name": "Subawards",
+      "description": {
+        "content": "Subaward (pass-through award) listings scoped to a prime award.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "74f359b1-12d9-4554-b136-34568d959043",
+          "name": "List subawards for a prime award",
+          "request": {
+            "name": "List subawards for a prime award",
+            "description": {
+              "content": "Returns a paged, sortable list of subawards (pass-through awards to a subrecipient) for the given prime award ID. Powers the Sub-Awards tab on the award profile page.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "subawards",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"sort\": \"<string>\",\n  \"order\": \"desc\",\n  \"limit\": 10,\n  \"award_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "290e5067-7fdb-4707-804e-018d9f2ccae3",
+              "name": "Paged subaward listing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subawards",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"page\": 1,\n  \"limit\": 15,\n  \"sort\": \"subaward_number\",\n  \"order\": \"desc\",\n  \"award_id\": \"25882628\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page_metadata\": {\n    \"page\": 6190,\n    \"next\": 5086,\n    \"previous\": 9167,\n    \"hasNext\": true,\n    \"hasPrevious\": false,\n    \"total\": 9234\n  },\n  \"results\": [\n    {\n      \"id\": 6127,\n      \"subaward_number\": \"string\",\n      \"description\": \"string\",\n      \"action_date\": \"1991-04-23\",\n      \"amount\": 692.0957410864603,\n      \"recipient_name\": \"string\"\n    },\n    {\n      \"id\": 7633,\n      \"subaward_number\": \"string\",\n      \"description\": \"string\",\n      \"action_date\": \"1974-09-18\",\n      \"amount\": 4107.963468424599,\n      \"recipient_name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.usaspending.gov/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "697b19ef-8d25-46af-8253-ea0c0d21b82b",
+    "name": "USAspending Agency Subawards API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.\n\nContact Support:\n Name: USAspending.gov / Bureau of the Fiscal Service",
+      "type": "text/plain"
+    }
+  }
+}

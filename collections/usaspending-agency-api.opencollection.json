@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "USAspending Agency API",
+    "version": "v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agency",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Agency overview",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.usaspending.gov/api/v2/agency/:toptier_code/",
+            "params": [
+              {
+                "name": "toptier_code",
+                "value": "",
+                "type": "path",
+                "description": "The toptier code of an agency (CGAC or FREC), 3-4 numeric characters."
+              },
+              {
+                "name": "fiscal_year",
+                "value": "",
+                "type": "query",
+                "description": "The desired \"as of\" fiscal year. Defaults to the current fiscal year."
+              }
+            ]
+          },
+          "docs": "Returns basic profile information for the agency for the fiscal year specified."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

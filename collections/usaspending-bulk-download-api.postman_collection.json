@@ -1,0 +1,287 @@
+{
+  "item": [
+    {
+      "id": "5d34f45c-c1fc-48d2-beb6-0f2598cde8a6",
+      "name": "Bulk Download",
+      "description": {
+        "content": "Asynchronous bulk CSV/TSV/text export of filtered spending data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6a6cd7d6-ecee-4b5a-9f49-8a0adea72461",
+          "name": "Request a bulk award data download",
+          "request": {
+            "name": "Request a bulk award data download",
+            "description": {
+              "content": "Begins generating a zip file of award data in CSV, TSV, or pipe-delimited text form for download. Poll /bulk_download/status/ with the returned file_name to check completion.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bulk_download",
+                "awards",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filters\": {\n    \"key_0\": 4421.602860033382,\n    \"key_1\": 1901\n  },\n  \"columns\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"file_format\": \"csv\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "daa460d0-7d5e-42fe-b1c1-628f265e07bb",
+              "name": "Download job accepted; includes the file name to poll for status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk_download",
+                    "awards",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": {\n    \"key_0\": 3924.4261216560085\n  },\n  \"columns\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"file_format\": \"csv\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"file_name\": \"string\",\n  \"status\": \"string\",\n  \"url\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0f60024f-720a-468b-804e-3fff24edc745",
+          "name": "Check bulk download status",
+          "request": {
+            "name": "Check bulk download status",
+            "description": {
+              "content": "Returns the generation status and download URL (once ready) for a previously requested bulk download file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bulk_download",
+                "status",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "file_name",
+                  "value": "<string>",
+                  "description": "(Required) The file name returned by the download-request endpoint."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "28e160b9-3883-4939-994b-06271a753743",
+              "name": "Download status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk_download",
+                    "status",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "file_name",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"file_name\": \"string\",\n  \"status\": \"failed\",\n  \"url\": \"string\",\n  \"total_rows\": 7784,\n  \"total_columns\": 1435\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5eb01ffc-239d-4d93-9aa1-a4becb1de4f4",
+          "name": "List agencies available for bulk download",
+          "request": {
+            "name": "List agencies available for bulk download",
+            "description": {
+              "content": "Returns the toptier and subtier agencies that can be used to scope a bulk award or account download.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bulk_download",
+                "list_agencies",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "134294d2-21f0-46df-adb7-63266a54f7e6",
+              "name": "List of agencies available for bulk download.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk_download",
+                    "list_agencies",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.usaspending.gov/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "196ea1b1-d3ed-4736-899c-a94a2d436b32",
+    "name": "USAspending Agency Bulk Download API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.\n\nContact Support:\n Name: USAspending.gov / Bureau of the Fiscal Service",
+      "type": "text/plain"
+    }
+  }
+}

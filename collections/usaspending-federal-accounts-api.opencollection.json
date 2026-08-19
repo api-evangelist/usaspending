@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "USAspending Agency Federal Accounts API",
+    "version": "v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Federal Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Federal account detail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.usaspending.gov/api/v2/federal_accounts/:account_number/",
+            "params": [
+              {
+                "name": "account_number",
+                "value": "",
+                "type": "path",
+                "description": "The Federal Account symbol (Agency Code-Main Account Code)."
+              },
+              {
+                "name": "fiscal_year",
+                "value": "",
+                "type": "query",
+                "description": "The desired \"as of\" fiscal year. Defaults to the current fiscal year."
+              }
+            ]
+          },
+          "docs": "Returns the agency identifier, account code, title, bureau, and aggregated obligated / outlay / budgetary-resources totals for the given federal account and its child Treasury Account Symbols (TAS)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

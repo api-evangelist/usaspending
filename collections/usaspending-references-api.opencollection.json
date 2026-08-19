@@ -1,0 +1,73 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "USAspending Agency References API",
+    "version": "v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "References",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List toptier agencies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.usaspending.gov/api/v2/references/toptier_agencies/",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction."
+              }
+            ]
+          },
+          "docs": "Returns all toptier agencies with their budgetary resources and the percentage of total government budget authority each accounts for. Powers the USAspending.gov agency profile pages."
+        },
+        {
+          "info": {
+            "name": "Autocomplete awarding agency / office",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/autocomplete/awarding_agency_office/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns awarding agencies and sub-agency offices matching the specified search text. Used by the Advanced Search page's Awarding Agency filter."
+        },
+        {
+          "info": {
+            "name": "Autocomplete recipient",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/autocomplete/recipient/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns recipients matching the specified search text, for use as a search filter."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,184 @@
+{
+  "item": [
+    {
+      "id": "9a2c6c12-f209-443d-8498-ec00da7ab1ba",
+      "name": "Federal Accounts",
+      "description": {
+        "content": "Federal account and Treasury Account Symbol (TAS) data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a5ff778a-0567-4d89-b7e3-357c7d6d5c14",
+          "name": "Federal account detail",
+          "request": {
+            "name": "Federal account detail",
+            "description": {
+              "content": "Returns the agency identifier, account code, title, bureau, and aggregated obligated / outlay / budgetary-resources totals for the given federal account and its child Treasury Account Symbols (TAS).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "federal_accounts",
+                ":account_number",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fiscal_year",
+                  "value": "<integer>",
+                  "description": "The desired \"as of\" fiscal year. Defaults to the current fiscal year."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_number",
+                  "description": "(Required) The Federal Account symbol (Agency Code-Main Account Code)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3d5eb90b-bc8e-472f-aad5-d3ffd6787a98",
+              "name": "Federal account detail with child Treasury Accounts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "federal_accounts",
+                    ":account_number",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fiscal_year",
+                      "value": "2026"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_number",
+                      "description": "(Required) The Federal Account symbol (Agency Code-Main Account Code)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fiscal_year\": \"string\",\n  \"id\": 4949,\n  \"agency_identifier\": \"string\",\n  \"main_account_code\": \"string\",\n  \"federal_account_code\": \"string\",\n  \"account_title\": \"string\",\n  \"parent_agency_toptier_code\": \"string\",\n  \"parent_agency_name\": \"string\",\n  \"bureau_name\": \"string\",\n  \"bureau_slug\": \"string\",\n  \"total_obligated_amount\": 4371.622691313542,\n  \"total_gross_outlay_amount\": 1153.6456005483376,\n  \"total_budgetary_resources\": 3716.2053231401037,\n  \"children\": [\n    {\n      \"name\": \"string\",\n      \"code\": \"string\",\n      \"obligated_amount\": 439.88396166173004,\n      \"gross_outlay_amount\": 5958.139377136738,\n      \"budgetary_resources_amount\": 4221.205416426107\n    },\n    {\n      \"name\": \"string\",\n      \"code\": \"string\",\n      \"obligated_amount\": 6280.156883408413,\n      \"gross_outlay_amount\": 8239.355843704634,\n      \"budgetary_resources_amount\": 8222.912505866694\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1918b954-d08b-4761-859e-3207d606eb5b",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "federal_accounts",
+                    ":account_number",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fiscal_year",
+                      "value": "2026"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_number",
+                      "description": "(Required) The Federal Account symbol (Agency Code-Main Account Code)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.usaspending.gov/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f4ee21d4-990c-4ea9-aec2-87bbdcd1b2f2",
+    "name": "USAspending Agency Federal Accounts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.\n\nContact Support:\n Name: USAspending.gov / Bureau of the Fiscal Service",
+      "type": "text/plain"
+    }
+  }
+}

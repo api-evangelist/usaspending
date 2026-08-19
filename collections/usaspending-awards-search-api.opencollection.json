@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "USAspending Agency Awards Search API",
+    "version": "v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Awards Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search spending by award",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/search/spending_by_award/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Supports the Advanced Search page. Accepts a complex award filter object and a requested field list, and returns paged, sortable award or subaward records."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

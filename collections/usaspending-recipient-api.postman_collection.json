@@ -1,0 +1,125 @@
+{
+  "item": [
+    {
+      "id": "907c49b9-c0b5-4bf1-bb4a-13f4d4a00866",
+      "name": "Recipient",
+      "description": {
+        "content": "Recipient (awardee) profile and search data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b656cd21-169a-4fa4-84e8-ec6e66601623",
+          "name": "List / search recipients",
+          "request": {
+            "name": "List / search recipients",
+            "description": {
+              "content": "Returns a paged list of recipients, their level, UEI (and deprecated DUNS), and award amount. Supports keyword search on name, UEI, or DUNS.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "recipient",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order\": \"desc\",\n  \"sort\": \"amount\",\n  \"limit\": 50,\n  \"page\": 1,\n  \"keyword\": \"<string>\",\n  \"award_type\": \"all\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0789f118-9a69-4a64-9bb8-c2d115a256d8",
+              "name": "Paged recipient listing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "recipient",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"order\": \"desc\",\n  \"sort\": \"amount\",\n  \"page\": 1,\n  \"limit\": 50,\n  \"award_type\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page_metadata\": {\n    \"page\": 6369,\n    \"next\": 6387,\n    \"previous\": 1922,\n    \"hasNext\": true,\n    \"hasPrevious\": false,\n    \"total\": 2550\n  },\n  \"results\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"duns\": \"string\",\n      \"uei\": \"string\",\n      \"recipient_level\": \"string\",\n      \"amount\": 156.62006997102296\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"duns\": \"string\",\n      \"uei\": \"string\",\n      \"recipient_level\": \"string\",\n      \"amount\": 2890.89860681771\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.usaspending.gov/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "690b3e81-6eab-4e3d-9a58-69f64435e6a3",
+    "name": "USAspending Agency Recipient API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.\n\nContact Support:\n Name: USAspending.gov / Bureau of the Fiscal Service",
+      "type": "text/plain"
+    }
+  }
+}

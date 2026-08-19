@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "USAspending Agency Budget Functions API",
+    "version": "v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Budget Functions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List budget functions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.usaspending.gov/api/v2/budget_functions/list_budget_functions/"
+          },
+          "docs": "Returns all federal budget functions, ordered by title."
+        },
+        {
+          "info": {
+            "name": "List budget subfunctions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.usaspending.gov/api/v2/budget_functions/list_budget_subfunctions/",
+            "params": [
+              {
+                "name": "budget_function",
+                "value": "",
+                "type": "query",
+                "description": "Budget function code to scope the subfunction list to."
+              }
+            ]
+          },
+          "docs": "Returns all federal budget subfunctions, optionally scoped to a parent budget function."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

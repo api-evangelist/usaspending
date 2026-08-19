@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "USAspending Agency Recipient API",
+    "version": "v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Recipient",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List / search recipients",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.usaspending.gov/api/v2/recipient/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a paged list of recipients, their level, UEI (and deprecated DUNS), and award amount. Supports keyword search on name, UEI, or DUNS."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
