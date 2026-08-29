@@ -1,0 +1,26 @@
+slug: usaspending
+provider: USAspending.gov
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Public Sector & Government
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Agency
+  spec_file: usaspending-agency-api-openapi.yml
+  capability_id: BC-3280.60
+  capability_id_l1: BC-3280
+  capability_name: Fiscal Reporting and Disclosure
+  confidence: 0.7
+  evidence: 'GET /agency/{toptier_code}/ getAgencyOverview ''Agency overview'' ... schemas: DEFC, AgencyOverview;
+    ''plus agency budgets, federal account (Treasury Account Symbol) data'''
+  reason: Publishes federal agency budgetary/spending profile data under the DATA Act transparency mandate
+    — public fiscal reporting and disclosure. Sub-capability choice is somewhat ambiguous between formulation
+    and disclosure, hence 0.7.
