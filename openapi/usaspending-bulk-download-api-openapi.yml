@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: USAspending Agency Bulk Download API
-  description: The USAspending API provides free, public, unauthenticated access to U.S. federal spending data - contracts, grants, loans, direct payments, and other financial assistance awards, plus agency budgets, federal account (Treasury Account Symbol) data, recipient profiles, and disaster/emergency (including COVID-19) relief spending. USAspending.gov is operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's federal spending transparency mandate. Most search and listing endpoints accept a POST with a JSON body describing filters, fields, sort, and pagination, because filter combinations are too complex for query strings; simpler single-resource lookups use GET with path parameters. This document is a representative, hand-authored subset of the full API grounded directly in the official API Blueprint contracts published in the usaspending-api GitHub repository - it is not a complete mirror of every endpoint and field.
+  title: USAspending Bulk Download API
+  description: The USAspending API provides free, public, unauthenticated access to U.S.
   version: v2
   contact:
     name: USAspending.gov / Bureau of the Fiscal Service
@@ -74,27 +74,21 @@ paths:
                 additionalProperties: true
 components:
   schemas:
-    BulkDownloadStatus:
+    BulkDownloadResponse:
       type: object
       properties:
         file_name:
           type: string
         status:
           type: string
-          enum:
-          - ready
-          - running
-          - failed
-          - finished
         url:
-          type: string
-          nullable: true
-        total_rows:
-          type: integer
-          nullable: true
-        total_columns:
-          type: integer
-          nullable: true
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
     BulkDownloadRequest:
       type: object
       required:
@@ -115,16 +109,27 @@ components:
           - tsv
           - pstxt
           default: csv
-    BulkDownloadResponse:
+    BulkDownloadStatus:
       type: object
       properties:
         file_name:
           type: string
         status:
           type: string
+          enum:
+          - ready
+          - running
+          - failed
+          - finished
         url:
-          type: string
-          nullable: true
-        message:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
+        total_rows:
+          type:
+          - integer
+          - 'null'
+        total_columns:
+          type:
+          - integer
+          - 'null'
