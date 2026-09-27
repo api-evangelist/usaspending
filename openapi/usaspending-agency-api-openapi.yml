@@ -37,6 +37,11 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
     DEFC:
       type: object
       properties:
@@ -96,27 +101,7 @@ components:
           type: array
           items:
             type: string
-    Error:
-      type: object
-      properties:
-        detail:
-          type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    ToptierCode:
-      name: toptier_code
-      in: path
-      required: true
-      description: The toptier code of an agency (CGAC or FREC), 3-4 numeric characters.
-      schema:
-        type: string
-        example: '020'
     FiscalYear:
       name: fiscal_year
       in: query
@@ -125,3 +110,18 @@ components:
       schema:
         type: integer
         example: 2026
+    ToptierCode:
+      name: toptier_code
+      in: path
+      required: true
+      description: The toptier code of an agency (CGAC or FREC), 3-4 numeric characters.
+      schema:
+        type: string
+        example: '020'
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

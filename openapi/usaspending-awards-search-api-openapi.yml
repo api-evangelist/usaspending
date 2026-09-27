@@ -58,29 +58,19 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 components:
+  responses:
+    BadRequest:
+      description: The request filters or fields failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    SpendingByAwardResponse:
+    Error:
       type: object
       properties:
-        spending_level:
+        detail:
           type: string
-          enum:
-          - awards
-          - subawards
-        limit:
-          type: integer
-        results:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-            description: One object per requested field name, plus internal_id.
-        page_metadata:
-          $ref: '#/components/schemas/PageMetadata'
-        messages:
-          type: array
-          items:
-            type: string
     PageMetadata:
       type: object
       properties:
@@ -100,37 +90,25 @@ components:
           type: boolean
         total:
           type: integer
-    Error:
+    SpendingByAwardResponse:
       type: object
       properties:
-        detail:
+        spending_level:
           type: string
-    AdvancedFilterObject:
-      type: object
-      description: Award search filter object. Common fields include award_type_codes, time_period, agencies, recipient_search_text, recipient_id, recipient_locations, place_of_performance_locations, naics_codes, psc_codes, keywords, and award_amounts. See the Advanced Search filter documentation for the full set.
-      additionalProperties: true
-      properties:
-        award_type_codes:
-          type: array
-          items:
-            type: string
-          example:
-          - A
-          - B
-          - C
-          - D
-        time_period:
+          enum:
+          - awards
+          - subawards
+        limit:
+          type: integer
+        results:
           type: array
           items:
             type: object
-            properties:
-              start_date:
-                type: string
-                format: date
-              end_date:
-                type: string
-                format: date
-        keywords:
+            additionalProperties: true
+            description: One object per requested field name, plus internal_id.
+        page_metadata:
+          $ref: '#/components/schemas/PageMetadata'
+        messages:
           type: array
           items:
             type: string
@@ -171,10 +149,32 @@ components:
           - awards
           - subawards
           default: awards
-  responses:
-    BadRequest:
-      description: The request filters or fields failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    AdvancedFilterObject:
+      type: object
+      description: Award search filter object. Common fields include award_type_codes, time_period, agencies, recipient_search_text, recipient_id, recipient_locations, place_of_performance_locations, naics_codes, psc_codes, keywords, and award_amounts. See the Advanced Search filter documentation for the full set.
+      additionalProperties: true
+      properties:
+        award_type_codes:
+          type: array
+          items:
+            type: string
+          example:
+          - A
+          - B
+          - C
+          - D
+        time_period:
+          type: array
+          items:
+            type: object
+            properties:
+              start_date:
+                type: string
+                format: date
+              end_date:
+                type: string
+                format: date
+        keywords:
+          type: array
+          items:
+            type: string

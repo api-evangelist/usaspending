@@ -63,6 +63,15 @@ components:
           type: string
         amount:
           type: number
+    RecipientListResponse:
+      type: object
+      properties:
+        page_metadata:
+          $ref: '#/components/schemas/PageMetadata'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipientListing'
     RecipientListRequest:
       type: object
       properties:
@@ -99,15 +108,6 @@ components:
           - direct_payments
           - other_financial_assistance
           default: all
-    RecipientListResponse:
-      type: object
-      properties:
-        page_metadata:
-          $ref: '#/components/schemas/PageMetadata'
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/RecipientListing'
     PageMetadata:
       type: object
       properties:

@@ -36,6 +36,23 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    FiscalYear:
+      name: fiscal_year
+      in: query
+      required: false
+      description: The desired "as of" fiscal year. Defaults to the current fiscal year.
+      schema:
+        type: integer
+        example: 2026
+    AccountNumber:
+      name: account_number
+      in: path
+      required: true
+      description: The Federal Account symbol (Agency Code-Main Account Code).
+      schema:
+        type: string
+        example: 011-1022
   schemas:
     FederalAccount:
       type: object
@@ -101,20 +118,3 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    FiscalYear:
-      name: fiscal_year
-      in: query
-      required: false
-      description: The desired "as of" fiscal year. Defaults to the current fiscal year.
-      schema:
-        type: integer
-        example: 2026
-    AccountNumber:
-      name: account_number
-      in: path
-      required: true
-      description: The Federal Account symbol (Agency Code-Main Account Code).
-      schema:
-        type: string
-        example: 011-1022

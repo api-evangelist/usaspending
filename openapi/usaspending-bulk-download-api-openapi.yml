@@ -74,6 +74,30 @@ paths:
                 additionalProperties: true
 components:
   schemas:
+    BulkDownloadStatus:
+      type: object
+      properties:
+        file_name:
+          type: string
+        status:
+          type: string
+          enum:
+          - ready
+          - running
+          - failed
+          - finished
+        url:
+          type:
+          - string
+          - 'null'
+        total_rows:
+          type:
+          - integer
+          - 'null'
+        total_columns:
+          type:
+          - integer
+          - 'null'
     BulkDownloadResponse:
       type: object
       properties:
@@ -109,27 +133,3 @@ components:
           - tsv
           - pstxt
           default: csv
-    BulkDownloadStatus:
-      type: object
-      properties:
-        file_name:
-          type: string
-        status:
-          type: string
-          enum:
-          - ready
-          - running
-          - failed
-          - finished
-        url:
-          type:
-          - string
-          - 'null'
-        total_rows:
-          type:
-          - integer
-          - 'null'
-        total_columns:
-          type:
-          - integer
-          - 'null'
