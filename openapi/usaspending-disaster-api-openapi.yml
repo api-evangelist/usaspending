@@ -39,17 +39,6 @@ paths:
                 $ref: '#/components/schemas/DisasterOverview'
 components:
   schemas:
-    DisasterOverview:
-      type: object
-      properties:
-        funding:
-          type: array
-          items:
-            $ref: '#/components/schemas/DisasterFunding'
-        total_budget_authority:
-          type: number
-        spending:
-          $ref: '#/components/schemas/DisasterSpending'
     DisasterSpending:
       type: object
       properties:
@@ -69,6 +58,17 @@ components:
           type:
           - number
           - 'null'
+    DisasterOverview:
+      type: object
+      properties:
+        funding:
+          type: array
+          items:
+            $ref: '#/components/schemas/DisasterFunding'
+        total_budget_authority:
+          type: number
+        spending:
+          $ref: '#/components/schemas/DisasterSpending'
     DisasterFunding:
       type: object
       properties:

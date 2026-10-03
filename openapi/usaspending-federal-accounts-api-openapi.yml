@@ -37,14 +37,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   parameters:
-    FiscalYear:
-      name: fiscal_year
-      in: query
-      required: false
-      description: The desired "as of" fiscal year. Defaults to the current fiscal year.
-      schema:
-        type: integer
-        example: 2026
     AccountNumber:
       name: account_number
       in: path
@@ -53,7 +45,28 @@ components:
       schema:
         type: string
         example: 011-1022
+    FiscalYear:
+      name: fiscal_year
+      in: query
+      required: false
+      description: The desired "as of" fiscal year. Defaults to the current fiscal year.
+      schema:
+        type: integer
+        example: 2026
   schemas:
+    TreasuryAccount:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        obligated_amount:
+          type: number
+        gross_outlay_amount:
+          type: number
+        budgetary_resources_amount:
+          type: number
     FederalAccount:
       type: object
       properties:
@@ -98,19 +111,6 @@ components:
       properties:
         detail:
           type: string
-    TreasuryAccount:
-      type: object
-      properties:
-        name:
-          type: string
-        code:
-          type: string
-        obligated_amount:
-          type: number
-        gross_outlay_amount:
-          type: number
-        budgetary_resources_amount:
-          type: number
   responses:
     NotFound:
       description: The requested resource was not found.

@@ -74,6 +74,41 @@ paths:
                 additionalProperties: true
 components:
   schemas:
+    BulkDownloadRequest:
+      type: object
+      required:
+      - filters
+      properties:
+        filters:
+          type: object
+          additionalProperties: true
+          description: Award/date/agency filter object; see the awards download API contract for the full shape.
+        columns:
+          type: array
+          items:
+            type: string
+        file_format:
+          type: string
+          enum:
+          - csv
+          - tsv
+          - pstxt
+          default: csv
+    BulkDownloadResponse:
+      type: object
+      properties:
+        file_name:
+          type: string
+        status:
+          type: string
+        url:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
     BulkDownloadStatus:
       type: object
       properties:
@@ -98,38 +133,3 @@ components:
           type:
           - integer
           - 'null'
-    BulkDownloadResponse:
-      type: object
-      properties:
-        file_name:
-          type: string
-        status:
-          type: string
-        url:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-    BulkDownloadRequest:
-      type: object
-      required:
-      - filters
-      properties:
-        filters:
-          type: object
-          additionalProperties: true
-          description: Award/date/agency filter object; see the awards download API contract for the full shape.
-        columns:
-          type: array
-          items:
-            type: string
-        file_format:
-          type: string
-          enum:
-          - csv
-          - tsv
-          - pstxt
-          default: csv

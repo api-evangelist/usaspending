@@ -37,11 +37,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        detail:
-          type: string
     DEFC:
       type: object
       properties:
@@ -64,6 +59,11 @@ components:
           - 'null'
           items:
             type: string
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
     AgencyOverview:
       type: object
       properties:

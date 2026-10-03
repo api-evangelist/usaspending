@@ -44,6 +44,34 @@ paths:
                 $ref: '#/components/schemas/SubawardsResponse'
 components:
   schemas:
+    PageMetadata:
+      type: object
+      properties:
+        page:
+          type: integer
+        next:
+          type:
+          - integer
+          - 'null'
+        previous:
+          type:
+          - integer
+          - 'null'
+        hasNext:
+          type: boolean
+        hasPrevious:
+          type: boolean
+        total:
+          type: integer
+    SubawardsResponse:
+      type: object
+      properties:
+        page_metadata:
+          $ref: '#/components/schemas/PageMetadata'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubawardResponse'
     SubawardsRequest:
       type: object
       required:
@@ -75,15 +103,6 @@ components:
         award_id:
           type: string
           description: Generated natural award ID (preferred) or legacy surrogate award ID.
-    SubawardsResponse:
-      type: object
-      properties:
-        page_metadata:
-          $ref: '#/components/schemas/PageMetadata'
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubawardResponse'
     SubawardResponse:
       type: object
       properties:
@@ -100,22 +119,3 @@ components:
           type: number
         recipient_name:
           type: string
-    PageMetadata:
-      type: object
-      properties:
-        page:
-          type: integer
-        next:
-          type:
-          - integer
-          - 'null'
-        previous:
-          type:
-          - integer
-          - 'null'
-        hasNext:
-          type: boolean
-        hasPrevious:
-          type: boolean
-        total:
-          type: integer
