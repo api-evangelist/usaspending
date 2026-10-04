@@ -94,21 +94,6 @@ components:
           - tsv
           - pstxt
           default: csv
-    BulkDownloadResponse:
-      type: object
-      properties:
-        file_name:
-          type: string
-        status:
-          type: string
-        url:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
     BulkDownloadStatus:
       type: object
       properties:
@@ -132,4 +117,19 @@ components:
         total_columns:
           type:
           - integer
+          - 'null'
+    BulkDownloadResponse:
+      type: object
+      properties:
+        file_name:
+          type: string
+        status:
+          type: string
+        url:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
           - 'null'

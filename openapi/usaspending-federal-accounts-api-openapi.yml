@@ -36,37 +36,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    AccountNumber:
-      name: account_number
-      in: path
-      required: true
-      description: The Federal Account symbol (Agency Code-Main Account Code).
-      schema:
-        type: string
-        example: 011-1022
-    FiscalYear:
-      name: fiscal_year
-      in: query
-      required: false
-      description: The desired "as of" fiscal year. Defaults to the current fiscal year.
-      schema:
-        type: integer
-        example: 2026
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    TreasuryAccount:
-      type: object
-      properties:
-        name:
-          type: string
-        code:
-          type: string
-        obligated_amount:
-          type: number
-        gross_outlay_amount:
-          type: number
-        budgetary_resources_amount:
-          type: number
     FederalAccount:
       type: object
       properties:
@@ -106,15 +83,38 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TreasuryAccount'
+    TreasuryAccount:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        obligated_amount:
+          type: number
+        gross_outlay_amount:
+          type: number
+        budgetary_resources_amount:
+          type: number
     Error:
       type: object
       properties:
         detail:
           type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    AccountNumber:
+      name: account_number
+      in: path
+      required: true
+      description: The Federal Account symbol (Agency Code-Main Account Code).
+      schema:
+        type: string
+        example: 011-1022
+    FiscalYear:
+      name: fiscal_year
+      in: query
+      required: false
+      description: The desired "as of" fiscal year. Defaults to the current fiscal year.
+      schema:
+        type: integer
+        example: 2026

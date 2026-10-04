@@ -58,6 +58,13 @@ components:
           type:
           - number
           - 'null'
+    DisasterFunding:
+      type: object
+      properties:
+        def_code:
+          type: string
+        amount:
+          type: number
     DisasterOverview:
       type: object
       properties:
@@ -69,10 +76,3 @@ components:
           type: number
         spending:
           $ref: '#/components/schemas/DisasterSpending'
-    DisasterFunding:
-      type: object
-      properties:
-        def_code:
-          type: string
-        amount:
-          type: number

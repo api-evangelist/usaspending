@@ -63,17 +63,17 @@ paths:
                       $ref: '#/components/schemas/BudgetSubfunction'
 components:
   schemas:
-    BudgetFunction:
-      type: object
-      properties:
-        budget_function_code:
-          type: string
-        budget_function_title:
-          type: string
     BudgetSubfunction:
       type: object
       properties:
         budget_subfunction_code:
           type: string
         budget_subfunction_title:
+          type: string
+    BudgetFunction:
+      type: object
+      properties:
+        budget_function_code:
+          type: string
+        budget_function_title:
           type: string
