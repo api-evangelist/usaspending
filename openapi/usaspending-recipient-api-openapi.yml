@@ -44,15 +44,6 @@ paths:
                 $ref: '#/components/schemas/RecipientListResponse'
 components:
   schemas:
-    RecipientListResponse:
-      type: object
-      properties:
-        page_metadata:
-          $ref: '#/components/schemas/PageMetadata'
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/RecipientListing'
     RecipientListRequest:
       type: object
       properties:
@@ -89,25 +80,15 @@ components:
           - direct_payments
           - other_financial_assistance
           default: all
-    RecipientListing:
+    RecipientListResponse:
       type: object
       properties:
-        id:
-          type: string
-        name:
-          type: string
-        duns:
-          type:
-          - string
-          - 'null'
-        uei:
-          type:
-          - string
-          - 'null'
-        recipient_level:
-          type: string
-        amount:
-          type: number
+        page_metadata:
+          $ref: '#/components/schemas/PageMetadata'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipientListing'
     PageMetadata:
       type: object
       properties:
@@ -127,3 +108,22 @@ components:
           type: boolean
         total:
           type: integer
+    RecipientListing:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        duns:
+          type:
+          - string
+          - 'null'
+        uei:
+          type:
+          - string
+          - 'null'
+        recipient_level:
+          type: string
+        amount:
+          type: number
