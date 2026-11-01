@@ -1,4 +1,4 @@
-# USAspending.gov (usaspending)
+# USAspending.gov
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,175 +64,122 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-USAspending.gov is the official open data source of U.S. federal spending information, operated by the Treasury Department's Bureau of the Fiscal Service to implement the DATA Act's transparency mandate. The underlying USAspending API (`api.usaspending.gov`) is a free, public, unauthenticated REST API that exposes federal contracts, grants, loans, direct payments, and other financial assistance awards, along with agency budgets, federal account and Treasury Account Symbol data, recipient profiles, and COVID-19 / disaster emergency relief spending. Most search and listing endpoints accept a `POST` with a JSON filter object rather than query parameters, given the complexity of the filter combinations; simpler lookup endpoints use `GET` with path parameters. The API and the `usaspending-api` server are open source (CC0 / public domain).
+USAspending.gov is the official open data source of federal spending information operated by the U.S. Department of the Treasury's Bureau of the Fiscal Service, implementing the DATA Act's transparency mandate. The underlying USAspending API (api.usaspending.gov) is a free, public, unauthenticated REST API that exposes federal contracts, grants, loans, direct payments, and other financial assistance awards, along with agency budgets, federal account and Treasury Account Symbol data, recipient profiles, and COVID-19 / disaster emergency relief spending. Most search and listing endpoints accept a POST with a JSON filter object rather than query parameters, given the complexity of the filter combinations; simpler lookup endpoints use GET with path parameters. The API and the usaspending-api server are open source.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/usaspending/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/usaspending/refs/heads/main/apis.yml)
+**Areas:** Government · Federal Spending · Open Data · Contracts · Grants · DATA Act · Transparency · Public Sector · Government Data
 
-## Tags
+## USAspending.gov on APIs.io
 
-- Government
-- Federal Spending
-- Open Data
-- Contracts
-- Grants
-- DATA Act
-- Transparency
-- Public Sector
+Everything profiled for USAspending.gov is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/usaspending/](https://apis.io/providers/usaspending/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (10)
 
-- **Created:** 2026-07-03
-- **Modified:** 2026-07-03
+- [USAspending.gov Agency API](https://apis.io/apis/usaspending/usaspending-agency-api/) — Per-agency profile, budget, and award data.
+- [USAspending.gov Awards Search API](https://apis.io/apis/usaspending/usaspending-awards-search-api/) — Advanced search and filtering across award and subaward spending.
+- [USAspending.gov Budget Functions API](https://apis.io/apis/usaspending/usaspending-budget-functions-api/) — Federal budget functional classification reference data.
+- [USAspending.gov Bulk Download API](https://apis.io/apis/usaspending/usaspending-bulk-download-api/) — Asynchronous bulk CSV/TSV/text export of filtered spending data.
+- [USAspending.gov Disaster API](https://apis.io/apis/usaspending/usaspending-disaster-api/) — Disaster and emergency (including COVID-19) supplemental funding data.
+- [USAspending.gov Federal Accounts API](https://apis.io/apis/usaspending/usaspending-federal-accounts-api/) — Federal account and Treasury Account Symbol (TAS) data.
+- [USAspending.gov Recipient API](https://apis.io/apis/usaspending/usaspending-recipient-api/) — Recipient (awardee) profile and search data.
+- [USAspending.gov References API](https://apis.io/apis/usaspending/usaspending-references-api/) — Reference and typeahead/autocomplete lookup data.
+- [USAspending.gov Subawards API](https://apis.io/apis/usaspending/usaspending-subawards-api/) — Subaward (pass-through award) listings scoped to a prime award.
+- [USAspending.gov](https://apis.io/apis/usaspending/usaspendinggov/) — US federal spending data
 
-## APIs
+### Published properties
 
-### USAspending Awards Search API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Advanced search across federal award spending (contracts, IDVs, grants, loans, direct payments, other financial assistance). Accepts a complex JSON filter object (award type, agency, recipient, time period, place of performance, NAICS/PSC, keyword, and more) plus a requested field list, and returns paged, sortable award or subaward records. Powers the USAspending.gov Advanced Search page, spending-by-category, spending-by-geography, and spending-over-time breakdowns.
+#### Agentic access (1)
 
-- **Human URL:** [https://api.usaspending.gov/docs/endpoints](https://api.usaspending.gov/docs/endpoints)
-- **Base URL:** `https://api.usaspending.gov/api/v2`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Properties
+- [Usaspending Agentic Access](https://apis.io/agentic-access/usaspending/usaspending-agentic-access/)
 
-- [Documentation](https://api.usaspending.gov/docs/endpoints)
-- [API Reference](https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/search/spending_by_award.md)
-- [OpenAPI](openapi/usaspending-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/usaspending.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/usaspending.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Collections (10)
 
-### USAspending Agency API
+Postman and Open Collection request collections.
 
-Per-agency profile data keyed by toptier agency code - mission, website, budgetary resources, obligated and outlay amounts, awards, sub-agencies, and Disaster Emergency Fund Code (DEFC) participation for a given fiscal year. Powers the USAspending.gov agency profile pages.
+- [USAspending API](https://apis.io/collections/usaspending/open-usaspending/)
+- [USAspending Agency API](https://apis.io/collections/usaspending/open-usaspending-agency-api/)
+- [USAspending Agency Awards Search API](https://apis.io/collections/usaspending/open-usaspending-awards-search-api/)
+- [USAspending Agency Budget Functions API](https://apis.io/collections/usaspending/open-usaspending-budget-functions-api/)
+- [USAspending Agency Bulk Download API](https://apis.io/collections/usaspending/open-usaspending-bulk-download-api/)
+- [USAspending Agency Disaster API](https://apis.io/collections/usaspending/open-usaspending-disaster-api/)
+- [USAspending Agency Federal Accounts API](https://apis.io/collections/usaspending/open-usaspending-federal-accounts-api/)
+- [USAspending Agency Recipient API](https://apis.io/collections/usaspending/open-usaspending-recipient-api/)
+- [USAspending Agency References API](https://apis.io/collections/usaspending/open-usaspending-references-api/)
+- [USAspending Agency Subawards API](https://apis.io/collections/usaspending/open-usaspending-subawards-api/)
 
-- **Human URL:** [https://api.usaspending.gov/docs/endpoints](https://api.usaspending.gov/docs/endpoints)
-- **Base URL:** `https://api.usaspending.gov/api/v2`
+#### Security (1)
 
-#### Properties
+Authentication, trust centre, and vulnerability disclosure.
 
-- [Documentation](https://api.usaspending.gov/docs/endpoints)
-- [API Reference](https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/agency/toptier_code.md)
-- [OpenAPI](openapi/usaspending-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/usaspending.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/usaspending.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Usaspending Domain Security](https://apis.io/security/usaspending/usaspending-domain-security/)
 
-### USAspending Recipient API
+#### Rate limits (1)
 
-Recipient (awardee) profile data - list and search recipients by keyword, UEI, or (deprecated) DUNS, sorted by award amount, plus per-recipient award breakdowns by award type and state. Powers the USAspending.gov recipient profile pages.
+Published request limits.
 
-- **Human URL:** [https://api.usaspending.gov/docs/endpoints](https://api.usaspending.gov/docs/endpoints)
-- **Base URL:** `https://api.usaspending.gov/api/v2`
+- [Usaspending Rate Limits](https://apis.io/rate-limits/usaspending/usaspending-rate-limits/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://api.usaspending.gov/docs/endpoints)
-- [API Reference](https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/recipient.md)
-- [OpenAPI](openapi/usaspending-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/usaspending.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/usaspending.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### USAspending Federal Account API
-
-Federal account and child Treasury Account Symbol (TAS) data for a given fiscal year - account title, parent agency and bureau, and aggregated obligated, gross outlay, and budgetary resources amounts. Powers the USAspending.gov federal account landing and detail pages.
-
-- **Human URL:** [https://api.usaspending.gov/docs/endpoints](https://api.usaspending.gov/docs/endpoints)
-- **Base URL:** `https://api.usaspending.gov/api/v2`
-
-#### Properties
-
-- [Documentation](https://api.usaspending.gov/docs/endpoints)
-- [API Reference](https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/federal_accounts/account_number.md)
-- [OpenAPI](openapi/usaspending-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/usaspending.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/usaspending.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### USAspending Budget Function API
-
-Reference listings of the federal budget's functional classification - budget functions and budget subfunctions (for example, National Defense, Health, Income Security) used to categorize and filter agency budgetary resources across the federal government.
-
-- **Human URL:** [https://api.usaspending.gov/docs/endpoints](https://api.usaspending.gov/docs/endpoints)
-- **Base URL:** `https://api.usaspending.gov/api/v2`
-
-#### Properties
-
-- [Documentation](https://api.usaspending.gov/docs/endpoints)
-- [API Reference](https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/budget_functions/list_budget_functions.md)
-- [OpenAPI](openapi/usaspending-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/usaspending.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/usaspending.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### USAspending Disaster/Emergency Funding (COVID-19) API
-
-Funding and spending detail for emergency and disaster supplemental appropriations, tracked by Disaster Emergency Fund Code (DEFC) - including the CARES Act and other COVID-19 relief legislation. Breaks down total budget authority, obligations, and outlays by agency, award, CFDA program, federal account, object class, recipient, and geography.
-
-- **Human URL:** [https://api.usaspending.gov/docs/endpoints](https://api.usaspending.gov/docs/endpoints)
-- **Base URL:** `https://api.usaspending.gov/api/v2`
-
-#### Properties
-
-- [Documentation](https://api.usaspending.gov/docs/endpoints)
-- [API Reference](https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/disaster/overview.md)
-- [OpenAPI](openapi/usaspending-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/usaspending.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/usaspending.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### USAspending Bulk Download API
-
-Asynchronous bulk export of filtered award, account, and transaction data as zipped CSV, TSV, or pipe-delimited text files. A request kicks off zip-file generation on the backend; a companion status endpoint is polled until the file is ready for download. Also lists agencies and monthly generated files available for download. Powers the USAspending.gov Custom Award Data Download page.
-
-- **Human URL:** [https://api.usaspending.gov/docs/endpoints](https://api.usaspending.gov/docs/endpoints)
-- **Base URL:** `https://api.usaspending.gov/api/v2`
-
-#### Properties
-
-- [Documentation](https://api.usaspending.gov/docs/endpoints)
-- [API Reference](https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/bulk_download/awards.md)
-- [OpenAPI](openapi/usaspending-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/usaspending.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/usaspending.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### USAspending References & Autocomplete API
-
-Reference and typeahead data used to build and validate search filters across the rest of the API - toptier agency listings with budgetary-resources share, plus autocomplete lookups for awarding/funding agencies and sub-agency offices, recipients, CFDA assistance listings, NAICS and PSC codes, locations, and glossary terms.
-
-- **Human URL:** [https://api.usaspending.gov/docs/endpoints](https://api.usaspending.gov/docs/endpoints)
-- **Base URL:** `https://api.usaspending.gov/api/v2`
-
-#### Properties
-
-- [Documentation](https://api.usaspending.gov/docs/endpoints)
-- [API Reference](https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/references/toptier_agencies.md)
-- [OpenAPI](openapi/usaspending-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/usaspending.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/usaspending.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### USAspending Subawards API
-
-Paged, sortable listing of subawards (pass-through awards from a prime recipient to a subrecipient) scoped to a given prime award ID - subaward number, description, action date, amount, and subrecipient name. Powers the Sub-Awards tab on the USAspending.gov award profile page.
-
-- **Human URL:** [https://api.usaspending.gov/docs/endpoints](https://api.usaspending.gov/docs/endpoints)
-- **Base URL:** `https://api.usaspending.gov/api/v2`
-
-#### Properties
-
-- [Documentation](https://api.usaspending.gov/docs/endpoints)
-- [API Reference](https://github.com/fedspendingtransparency/usaspending-api/blob/master/usaspending_api/api_contracts/contracts/v2/subawards.md)
-- [OpenAPI](openapi/usaspending-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/usaspending.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/usaspending.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/fedspendingtransparency)
 - [Website](https://www.usaspending.gov)
 - [Documentation](https://api.usaspending.gov/docs/endpoints)
-- [Rate Limits](rate-limits/usaspending-rate-limits.yml)
+- [Blog](https://www.usaspending.gov/blog/)
+- [GitHub](https://github.com/fedspendingtransparency)
 
-## Pricing & FinOps
+## API Evangelist rating
 
-USAspending is free, public, open government data funded under the DATA Act - there is no account, no API key, no pricing tier, and no billing surface. This catalog entry intentionally has no `plans/` or `finops/` directory rather than fabricating pricing information that does not exist.
+**Kin Score 21.3** — emerging · rubric 0.24.0 · scored 2026-10-17
 
-## Maintainers
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 45.4 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 19.0 |
+| Access clarity | 0.0 |
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Agent readiness 17.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 5.9** — Government & Public Sector
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/usaspending/](https://apis.io/providers/usaspending/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for USAspending.gov: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/usaspending/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
